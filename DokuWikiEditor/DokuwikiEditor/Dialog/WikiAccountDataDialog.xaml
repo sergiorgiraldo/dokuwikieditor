@@ -1,0 +1,27 @@
+﻿<Window x:Class="DokuWikiEditor.Dialog.WikiAccountDataDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="WikiAccountDataDialog" Height="297" Width="658" Icon="/DokuWikiEditor;component/Images/NewCard.png">
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition />
+			<RowDefinition />
+			<RowDefinition />
+			<RowDefinition />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="126*" />
+			<ColumnDefinition Width="510*" />
+		</Grid.ColumnDefinitions>
+		<Label Name="WikiAccountName" Grid.ColumnSpan="2" >Wiki account name</Label>
+		<TextBox Grid.Column="1" Name="WikiAccountNameText" Text="{Binding Path=AccountName,Mode=TwoWay}"></TextBox>
+		<Label Grid.Row="1" Name="WikiUrl" Grid.ColumnSpan="2">Wiki Url</Label>
+		<TextBox Grid.Column="1" Grid.Row="1" Name="WikiUrlText" Text="{Binding Path=WikiUrlRaw,Mode=TwoWay}"></TextBox>
+		<Label Grid.Row="2" Name="wikiLogin" Grid.ColumnSpan="2">Wiki Login Name</Label>
+		<TextBox Grid.Column="1" Grid.Row="2" Name="wikiLoginText" Text="{Binding Path=LoginName,Mode=TwoWay}"></TextBox>
+		<Label Grid.Row="3" Name="wikiPass" Grid.ColumnSpan="2">Password</Label>
+		<TextBox Grid.Column="1" Grid.Row="3" Name="wikiPassText" Text="{Binding Path=Password,Mode=TwoWay}"></TextBox>
+		<Button Grid.Row="4" Grid.ColumnSpan="2" Name="buttonOk" Click="buttonOk_Click">Create new wiki account.</Button>
+	</Grid>
+</Window>
