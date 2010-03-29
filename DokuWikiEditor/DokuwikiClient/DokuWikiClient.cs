@@ -26,88 +26,86 @@
 
 namespace DokuwikiClient
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Net;
+	using System;
+	using System.Collections.Generic;
+	using System.Net;
+	using DokuwikiClient.Communication;
+	using DokuwikiClient.Communication.Messages;
+	using DokuwikiClient.Domain.Entities;
+	using DokuwikiClient.Persistence;
+	using log4net;
 
-    using DokuwikiClient.Communication;
-    using DokuwikiClient.Communication.Messages;
-    using DokuwikiClient.Domain.Entities;
-    using DokuwikiClient.Persistence;
+	/// <summary>
+	/// Root class for all applications using the library. Offers the access on the core functionality, objects, etc.
+	/// </summary>
+	public class DokuWikiClient
+	{
+		#region Fields
 
-    using log4net;
+		private static ILog logger = LogManager.GetLogger(typeof(DokuWikiClient).Name);
 
-    /// <summary>
-    /// Root class for all applications using the library. Offers the access on the core functionality, objects, etc.
-    /// </summary>
-    public class DokuWikiClient
-    {
-        #region Fields
+		private XmlRpcClient client;
+		private FileManager fileManager = new FileManager();
 
-        private static ILog logger = LogManager.GetLogger(typeof(DokuWikiClient).Name);
+		#endregion Fields
 
-        private XmlRpcClient client;
-        private FileManager fileManager = new FileManager();
+		#region Methods
 
-        #endregion Fields
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DokuWikiClient"/> class.
+		/// </summary>
+		/// <param name="account">The account to use for the communication etc.</param>
+		public void InitializeDokuWikiClient(WikiAccount account)
+		{
+			if (account == null || account.WikiUrlRaw == null)
+			{
+				throw new ArgumentNullException("account", "The account object or the WikiUrl is null!");
+			}
 
-        #region Methods
+			client = new XmlRpcClient(account.WikiUrl);
+			this.ConnectToWiki();
+		}
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DokuWikiClient"/> class.
-        /// </summary>
-        /// <param name="account">The account to use for the communication etc.</param>
-        public void InitializeDokuWikiClient(WikiAccount account)
-        {
-            if (account == null || account.WikiUrlRaw == null)
-            {
-                throw new ArgumentNullException("account", "The account object or the WikiUrl is null!");
-            }
+		/// <summary>
+		/// Loads the wiki accounts.
+		/// </summary>
+		/// <returns></returns>
+		public List<WikiAccount> LoadWikiAccounts()
+		{
+			return this.fileManager.LoadObjects<WikiAccount>(typeof(WikiAccount).Name);
+		}
 
-            client = new XmlRpcClient(account.WikiUrl);
-            this.ConnectToWiki();
-        }
+		public void SaveWikiAccount(WikiAccount accountToSave)
+		{
+			this.fileManager.Save<WikiAccount>(accountToSave);
+		}
 
-        /// <summary>
-        /// Loads the wiki accounts.
-        /// </summary>
-        /// <returns></returns>
-        public List<WikiAccount> LoadWikiAccounts()
-        {
-            return this.fileManager.LoadObjects<WikiAccount>(typeof(WikiAccount).Name);
-        }
+		/// <summary>
+		/// Establishes the connection to the wiki.
+		/// </summary>
+		/// <returns>True, if the connection to the wikiserver could be established. False if not.</returns>
+		private bool ConnectToWiki()
+		{
+			try
+			{
+				this.client.ListServerMethods();
+			}
+			catch (ArgumentException)
+			{
+				return false;
+			}
+			catch (WebException)
+			{
+				return false;
+			}
+			catch (CommunicationException)
+			{
+				return false;
+			}
 
-        public void SaveWikiAccount(WikiAccount accountToSave)
-        {
-            this.fileManager.Save<WikiAccount>(accountToSave);
-        }
+			return true;
+		}
 
-        /// <summary>
-        /// Establishes the connection to the wiki.
-        /// </summary>
-        /// <returns>True, if the connection to the wikiserver could be established. False if not.</returns>
-        private bool ConnectToWiki()
-        {
-            try
-            {
-                this.client.ListServerMethods();
-            }
-            catch (ArgumentException)
-            {
-                return false;
-            }
-            catch (WebException)
-            {
-                return false;
-            }
-            catch (CommunicationException)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        #endregion Methods
-    }
+		#endregion Methods
+	}
 }
