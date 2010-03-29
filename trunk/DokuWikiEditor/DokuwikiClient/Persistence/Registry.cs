@@ -19,13 +19,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ========================================================================
-          
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using CH.Froorider.Codeheap.Domain;
 using System.Xml.Serialization;
+using CH.Froorider.Codeheap.Domain;
 
 namespace DokuwikiClient.Persistence
 {
@@ -34,13 +32,13 @@ namespace DokuwikiClient.Persistence
 	/// </summary>
 	[Serializable]
 	[XmlInclude(typeof(BusinessObject))]
-	[XmlRoot(ElementName="Registry",Namespace="www.froorider.ch")]
+	[XmlRoot(ElementName = "Registry", Namespace = "www.froorider.ch")]
 	public class Registry
 	{
 		#region Properties
 
-		[XmlArray(ElementName="WikiObjects")]
-		public List<string> wikiObjects { get; set; } 
+		[XmlArray(ElementName = "WikiObjects")]
+		public List<string> wikiObjects { get; set; }
 
 		#endregion
 
@@ -67,7 +65,7 @@ namespace DokuwikiClient.Persistence
 		{
 			string typeName = wikiObject.GetType().Name;
 			string identifier = wikiObject.ObjectIdentifier;
-			wikiObjects.Add(String.Format("{0};{1}",typeName,identifier));
+			wikiObjects.Add(String.Format("{0};{1}", typeName, identifier));
 		}
 
 		/// <summary>

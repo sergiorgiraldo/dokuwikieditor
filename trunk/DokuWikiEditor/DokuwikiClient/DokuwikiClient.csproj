@@ -8,7 +8,7 @@
     <ProjectGuid>{76C0C243-DDC6-42F6-ACD4-012867234D3B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DokuwikiClient</RootNamespace>
+    <RootNamespace>CH.Froorider.DokuwikiClient</RootNamespace>
     <AssemblyName>DokuwikiClient</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -37,11 +37,14 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <DocumentationFile>bin\Debug\DokuwikiClient.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -97,6 +100,8 @@
     <Compile Include="Communication\XmlRpcMessages\PutParameters.cs" />
     <Compile Include="Communication\XmlRpcMessages\SpecificationInfo.cs" />
     <Compile Include="Communication\XmlRpcMessages\XmlRpcMessage.cs" />
+    <Compile Include="Contracts\IWikiRepository.cs" />
+    <Compile Include="Contracts\WikiRepositoryException.cs" />
     <Compile Include="DokuWikiClient.cs" />
     <Compile Include="DokuWikiClientConsole.cs" />
     <Compile Include="DokuWikiEngine.cs" />
@@ -109,6 +114,7 @@
     <Compile Include="Formatting\Renderers\DokuWikiHeadingsRenderer.cs" />
     <Compile Include="Formatting\DokuWikiScope.cs" />
     <Compile Include="Persistence\FileManager.cs" />
+    <Compile Include="Persistence\FileRepository.cs" />
     <Compile Include="Persistence\Registry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
