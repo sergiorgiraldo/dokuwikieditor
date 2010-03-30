@@ -75,6 +75,10 @@ namespace DokuwikiClient
 			return this.fileManager.LoadObjects<WikiAccount>(typeof(WikiAccount).Name);
 		}
 
+		/// <summary>
+		/// Saves the wiki account.
+		/// </summary>
+		/// <param name="accountToSave">The account to save.</param>
 		public void SaveWikiAccount(WikiAccount accountToSave)
 		{
 			this.fileManager.Save<WikiAccount>(accountToSave);

@@ -82,7 +82,7 @@ namespace DokuwikiClient.Persistence
 		/// Saves the given business object permamently on the disk.
 		/// </summary>
 		/// <typeparam name="T">The concrete Type of the BusinessObject.</typeparam>
-		/// <param name="objectToRegister">The object itself to save.</param>
+		/// <param name="objectToSave">The object itself to save.</param>
 		public void Save<T>(T objectToSave) where T : BusinessObject
 		{
 			List<string> identifiers = this.registry.GetIdentifiers(objectToSave.GetType().Name);
@@ -106,7 +106,7 @@ namespace DokuwikiClient.Persistence
 		/// Loads all wiki objects of a certain type.
 		/// </summary>
 		/// <typeparam name="T">The type of BO's to load.</typeparam>
-		/// <param name="typeToLoad">The type to load.</param>
+		/// <param name="typeToLoadName">The type to load.</param>
 		/// <returns>A list containing all BO's of this type, which could be loaded.</returns>
 		public List<T> LoadObjects<T>(string typeToLoadName) where T : BusinessObject
 		{

@@ -328,7 +328,7 @@ namespace DokuwikiClient.Communication
 		{
 			try
 			{
-				return this.clientProxy.PutPage(pageName,rawWikiText,putParameters);
+				return this.clientProxy.PutPage(pageName, rawWikiText, putParameters);
 			}
 			catch (WebException we)
 			{
@@ -342,101 +342,204 @@ namespace DokuwikiClient.Communication
 			}
 		}
 
+		/// <summary>
+		/// Gets the page list.
+		/// </summary>
+		/// <param name="nameSpace">The name space.</param>
+		/// <param name="options">The options.</param>
+		/// <returns></returns>
 		public string[] GetPageList(string nameSpace, string[] options)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Gets the doku wiki version.
+		/// </summary>
+		/// <returns></returns>
 		public string GetDokuWikiVersion()
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Gets the time.
+		/// </summary>
+		/// <returns></returns>
 		public int GetTime()
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Gets the XML RPC API version.
+		/// </summary>
+		/// <returns></returns>
 		public int GetXmlRpcApiVersion()
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Logins the specified user.
+		/// </summary>
+		/// <param name="user">The user.</param>
+		/// <param name="password">The password.</param>
+		/// <returns></returns>
 		public int Login(string user, string password)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Sets the locks.
+		/// </summary>
+		/// <param name="pagesToLockOrUnlock">The pages to lock or unlock.</param>
+		/// <returns></returns>
 		public string[] SetLocks(string[] pagesToLockOrUnlock)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Gets the RPC version supported.
+		/// </summary>
+		/// <returns></returns>
 		public string GetRpcVersionSupported()
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Gets the page version.
+		/// </summary>
+		/// <param name="pageName">Name of the page.</param>
+		/// <param name="timestamp">The timestamp.</param>
+		/// <returns></returns>
 		public string GetPageVersion(string pageName, int timestamp)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Gets the page versions.
+		/// </summary>
+		/// <param name="pageName">Name of the page.</param>
+		/// <param name="offset">The offset.</param>
+		/// <returns></returns>
 		public object[] GetPageVersions(string pageName, int offset)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Gets the page info.
+		/// </summary>
+		/// <param name="pageName">Name of the page.</param>
+		/// <returns></returns>
 		public object[] GetPageInfo(string pageName)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Gets the page info version.
+		/// </summary>
+		/// <param name="pageName">Name of the page.</param>
+		/// <param name="timestamp">The timestamp.</param>
+		/// <returns></returns>
 		public object[] GetPageInfoVersion(string pageName, int timestamp)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Gets the page HTML version.
+		/// </summary>
+		/// <param name="pageName">Name of the page.</param>
+		/// <param name="timestamp">The timestamp.</param>
+		/// <returns></returns>
 		public string GetPageHtmlVersion(string pageName, int timestamp)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Lists the links.
+		/// </summary>
+		/// <param name="pageName">Name of the page.</param>
+		/// <returns></returns>
 		public object[] ListLinks(string pageName)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Gets the back links.
+		/// </summary>
+		/// <param name="pageName">Name of the page.</param>
+		/// <returns></returns>
 		public object[] GetBackLinks(string pageName)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Gets the recent changes.
+		/// </summary>
+		/// <param name="timestamp">The timestamp.</param>
+		/// <returns></returns>
 		public object[] GetRecentChanges(int timestamp)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Gets the attachments.
+		/// </summary>
+		/// <param name="nameSpace">The name space.</param>
+		/// <param name="attachmentOptions">The attachment options.</param>
+		/// <returns></returns>
 		public object[] GetAttachments(string nameSpace, object[] attachmentOptions)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Gets the attachment.
+		/// </summary>
+		/// <param name="mediaFileId">The media file id.</param>
+		/// <returns></returns>
 		public object GetAttachment(string mediaFileId)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Gets the attachment info.
+		/// </summary>
+		/// <param name="mediaFileId">The media file id.</param>
+		/// <returns></returns>
 		public object[] GetAttachmentInfo(string mediaFileId)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Puts the attachment.
+		/// </summary>
+		/// <param name="mediaFileId">The media file id.</param>
+		/// <param name="mediaFileData">The media file data.</param>
+		/// <param name="attachmentOptions">The attachment options.</param>
 		public void PutAttachment(string mediaFileId, object mediaFileData, object attachmentOptions)
 		{
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Deletes the attachment.
+		/// </summary>
+		/// <param name="mediaFileId">The media file id.</param>
 		public void DeleteAttachment(string mediaFileId)
 		{
 			throw new NotImplementedException();

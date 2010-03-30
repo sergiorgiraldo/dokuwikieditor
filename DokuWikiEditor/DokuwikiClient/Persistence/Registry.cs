@@ -37,6 +37,10 @@ namespace DokuwikiClient.Persistence
 	{
 		#region Properties
 
+		/// <summary>
+		/// Gets or sets the wiki objects.
+		/// </summary>
+		/// <value>The wiki objects.</value>
 		[XmlArray(ElementName = "WikiObjects")]
 		public List<string> wikiObjects { get; set; }
 
