@@ -82,9 +82,9 @@ namespace CH.Froorider.DokuwikiClient.Contracts
 		void Store<T>(T businessObjectToStore, string id) where T : BusinessObject;
 
 		/// <summary>
-		/// Gets the identifiers this repository knows as an <see cref="IEnumerable"/> collection.
+		/// Gets the identifiers this repository knows as an IEnumerable collection.
 		/// </summary>
-		/// <returns>An instance of <see cref="IEnumerable"/> which can be used to identify <see cref="BusinessObject"/>s.</returns>
+		/// <returns>An instance of IEnumerable which can be used to identify <see cref="BusinessObject"/>s.</returns>
 		/// <exception cref="WikiRepositoryException">Is thrown when there are no identifiers at all.</exception>
 		IEnumerable<string> GetIdentifiers();
 	}

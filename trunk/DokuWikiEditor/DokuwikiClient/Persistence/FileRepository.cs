@@ -106,10 +106,10 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 		}
 
 		/// <summary>
-		/// Gets the identifiers this repository knows as an <see cref="IEnumerable"/> collection.
+		/// Gets the identifiers this repository knows as anIEnumerable collection.
 		/// </summary>
 		/// <returns>
-		/// An instance of <see cref="IEnumerable"/> which can be used to identify <see cref="BusinessObject"/>s.
+		/// An instance of IEnumerable which can be used to identify <see cref="BusinessObject"/>s.
 		/// </returns>
 		/// <exception cref="WikiRepositoryException">Is thrown when there are no identifiers at all.</exception>
 		public IEnumerable<string> GetIdentifiers()
