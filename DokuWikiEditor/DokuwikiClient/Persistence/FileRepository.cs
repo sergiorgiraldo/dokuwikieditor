@@ -29,6 +29,7 @@ using CH.Froorider.Codeheap.Domain;
 using CH.Froorider.Codeheap.Persistence;
 using System.IO;
 using log4net;
+using DokuwikiClient.Domain.Entities;
 
 namespace CH.Froorider.DokuwikiClient.Persistence
 {
@@ -39,7 +40,7 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 	{
 		#region Fields
 
-		private static readonly string repositoryPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "//DokuWikiEditor//";
+		private static readonly string repositoryPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "//TomsCodeHeap//";
 		private static ILog logger = LogManager.GetLogger(typeof(FileRepository));
 		private Dictionary<string, BusinessObject> documents = new Dictionary<string, BusinessObject>();
 
@@ -54,9 +55,15 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 		{
 			try
 			{
+				DirectoryInfo directory;
+
 				if (!Directory.Exists(FileRepository.repositoryPath))
 				{
-					Directory.CreateDirectory(FileRepository.repositoryPath);
+					directory = Directory.CreateDirectory(FileRepository.repositoryPath);
+				}
+				else
+				{
+					directory = new DirectoryInfo(FileRepository.repositoryPath);
 				}
 			}
 			catch (Exception e)
@@ -69,14 +76,39 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 
 		#region IWikiRepository Members
 
+		/// <summary>
+		/// Deletes the <see cref="BusinessObject"/> with the given <paramref name="id"/> out of the repository.
+		/// </summary>
+		/// <param name="id">The identifier of the <see cref="BusinessObject"/> to delete.</param>
+		/// <exception cref="WikiRepositoryException">Is thrown when the desired business object referenced by <see paramref="id"/>
+		/// could not be deleted.
+		/// </exception>
 		public void Delete(string id)
 		{
 			throw new NotImplementedException();
 		}
 
-		public T Load<T>(string id) where T : CH.Froorider.Codeheap.Domain.BusinessObject
+		/// <summary>
+		/// Loads the <see cref="BusinessObject"/> with the given <paramref name="id"/> out of the repository.
+		/// </summary>
+		/// <typeparam name="T">The specific subtype of <see cref="BusinessObject"/> to load.</typeparam>
+		/// <param name="id">The identifier of the <see cref="BusinessObject"/> to delete.</param>
+		/// <returns>
+		/// The loaded <see cref="BusinessObject"/> of type <typeparamref name="T"/>.
+		/// </returns>
+		/// <exception cref="System.ArgumentNullException">Is thrown when <paramref name="id"/> is a <see langword="null"/> reference.</exception>
+		/// <exception cref="WikiRepositoryException">Is thrown when the desired business object referenced by <see paramref="id"/>
+		/// could not be load.</exception>
+		public T Load<T>(string id) where T : BusinessObject
 		{
-			throw new NotImplementedException();
+			if (this.documents.ContainsKey(id))
+			{
+				return this.documents[id] as T;
+			}
+			else
+			{
+				throw new WikiRepositoryException();
+			}
 		}
 
 		/// <summary>
@@ -90,19 +122,75 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 		/// <exception cref="System.ArgumentNullException">Is thrown when <paramref name="businessObjectToStore"/> is a <see langword="null"/> reference.</exception>
 		/// <exception cref="WikiRepositoryException">Is thrown when the desired business object referenced by <see paramref="businessObjectToStore"/>
 		/// could not be stored.</exception>
-		public string Store<T>(T businessObjectToStore) where T : CH.Froorider.Codeheap.Domain.BusinessObject
+		public string Store<T>(T businessObjectToStore) where T : BusinessObject
 		{
 			if (businessObjectToStore == null)
 			{
 				throw new ArgumentNullException("businessObjectToStore", "The buisness object to store must be set.");
 			}
 
-			return businessObjectToStore.Serialize();
+			string businessObjectIdentifier = string.Empty;
+			try
+			{
+				businessObjectIdentifier = businessObjectToStore.Serialize();
+				if (documents.ContainsKey(businessObjectIdentifier))
+				{
+					documents[businessObjectIdentifier] = businessObjectToStore;
+				}
+				else
+				{
+					documents.Add(businessObjectIdentifier, businessObjectToStore);
+				}
+			}
+			catch (InvalidOperationException ioe)
+			{
+				throw new WikiRepositoryException("The given business object could not be serialized.", ioe);
+			}
+
+			return businessObjectIdentifier;
 		}
 
-		public void Store<T>(T businessObjectToStore, string id) where T : CH.Froorider.Codeheap.Domain.BusinessObject
+		/// <summary>
+		/// Stores the passed <see cref="BusinessObject"/> in the repositiory.
+		/// </summary>
+		/// <typeparam name="T">The specific subtype of <see cref="BusinessObject"/> to store.</typeparam>
+		/// <param name="businessObjectToStore">The <see cref="BusinessObject"/> to store.</param>
+		/// <param name="id">The identifier of the <see cref="BusinessObject"/> to store.</param>
+		/// <exception cref="ArgumentNullException"> Is thrown when
+		/// <para><paramref name="businessObjectToStore"/> is a <see langword="null"/> reference</para>
+		/// 	<para>- or -</para>
+		/// 	<para><paramref name="id"/> is a <see langword="null"/> reference.</para>
+		/// </exception>
+		/// <exception cref="WikiRepositoryException">Is thrown when the desired business object referenced by <see paramref="businessObjectToStore"/>
+		/// or <paramref name="id"/> could not be stored.</exception>
+		public void Store<T>(T businessObjectToStore, string id) where T : BusinessObject
 		{
-			throw new NotImplementedException();
+			if (businessObjectToStore == null)
+			{
+				throw new ArgumentNullException("businessObjectToStore");
+			}
+
+			if (String.IsNullOrEmpty(id))
+			{
+				throw new ArgumentNullException("id");
+			}
+
+			try
+			{
+				businessObjectToStore.Serialize(FileRepository.repositoryPath + id, ".dat");
+				if (documents.ContainsKey(id))
+				{
+					documents[id] = businessObjectToStore;
+				}
+				else
+				{
+					documents.Add(id, businessObjectToStore);
+				}
+			}
+			catch (InvalidOperationException ioe)
+			{
+				throw new WikiRepositoryException("The given business object could not be serialized.", ioe);
+			}
 		}
 
 		/// <summary>
