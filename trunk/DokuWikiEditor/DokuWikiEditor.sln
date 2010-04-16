@@ -7,7 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		ThirdPartyLibraries\ColorCode.dll = ThirdPartyLibraries\ColorCode.dll
 		ThirdPartyLibraries\CookComputing.XmlRpcV3.dll = ThirdPartyLibraries\CookComputing.XmlRpcV3.dll
+		DokuWikiEditor.vsmdi = DokuWikiEditor.vsmdi
 		ThirdPartyLibraries\log4net.dll = ThirdPartyLibraries\log4net.dll
+		TestRunConfigLocal.testrunconfig = TestRunConfigLocal.testrunconfig
 		ThirdPartyLibraries\TomsCodeHeap.dll = ThirdPartyLibraries\TomsCodeHeap.dll
 		ThirdPartyLibraries\WikiPlex.dll = ThirdPartyLibraries\WikiPlex.dll
 	EndProjectSection
@@ -20,6 +22,9 @@ Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
 		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = DokuWikiEditor.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

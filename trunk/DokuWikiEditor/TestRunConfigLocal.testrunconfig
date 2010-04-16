@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRunConfiguration name="TestRunConfig1" id="9a8806be-9612-478a-98ce-7a3f0121927b" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2006">
+  <Description>This is a default test run configuration for a local test run.</Description>
+  <CodeCoverage enabled="true">
+    <Regular>
+      <CodeCoverageItem binaryFile="DokuwikiClient\bin\Debug\DokuwikiClient.exe" pdbFile="DokuwikiClient\bin\Debug\DokuwikiClient.pdb" instrumentInPlace="true" />
+      <CodeCoverageItem binaryFile="DokuwikiEditor\bin\Debug\DokuWikiEditor.exe" pdbFile="DokuwikiEditor\bin\Debug\DokuWikiEditor.pdb" instrumentInPlace="true" />
+    </Regular>
+  </CodeCoverage>
+  <Timeouts runTimeout="1800000" testTimeout="60000" />
+  <TestTypeSpecific />
+</TestRunConfiguration>

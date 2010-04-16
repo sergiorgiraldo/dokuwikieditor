@@ -37,6 +37,7 @@
 			manager.Save<WikiAccount>(commonAccount);
 			List<WikiAccount> account = manager.LoadObjects<WikiAccount>(typeof(WikiAccount).Name);
 			Assert.IsTrue(account.Count != 0);
+
 		}
 
 		#endregion Methods
