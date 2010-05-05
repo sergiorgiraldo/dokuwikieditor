@@ -19,14 +19,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ========================================================================
-          
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using WikiPlex.Compilation.Macros;
-using WikiPlex.Compilation;
 using WikiPlex;
+using WikiPlex.Compilation;
+using WikiPlex.Compilation.Macros;
 
 namespace DokuwikiClient.Formatting.Macros
 {

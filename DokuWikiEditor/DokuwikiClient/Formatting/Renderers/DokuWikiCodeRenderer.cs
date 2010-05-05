@@ -21,9 +21,6 @@
 // ========================================================================
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using WikiPlex.Formatting;
 
 namespace DokuwikiClient.Formatting.Renderers
@@ -37,7 +34,7 @@ namespace DokuwikiClient.Formatting.Renderers
 
 		private readonly string rendererName = typeof(DokuWikiCodeRenderer).ToString();
 
-        private readonly string headingOneFormat = "<div style='outline:4px solid invert; background-color:yellow; padding:4px; margin:0px;'>{0}</div>";
+		private readonly string headingOneFormat = "<div style='outline:4px solid invert; background-color:yellow; padding:4px; margin:0px;'>{0}</div>";
 
 		#endregion
 
@@ -87,7 +84,7 @@ namespace DokuwikiClient.Formatting.Renderers
 		{
 			if (scopeName == DokuWikiScope.CodeBlock)
 			{
-                return String.Format(this.headingOneFormat, htmlEncode(input));
+				return String.Format(this.headingOneFormat, htmlEncode(input));
 			}
 			else
 			{

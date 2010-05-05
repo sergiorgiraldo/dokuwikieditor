@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DokuwikiClient.Communication.Messages
 {
 	/// <summary>
 	/// Common exception for the DokuWikiClient library. Can be thrown by any class of this library.
 	/// </summary>
-	[Serializable] 
+	[Serializable]
 	public class DokuWikiClientException : Exception
 	{
 		#region Constructors
