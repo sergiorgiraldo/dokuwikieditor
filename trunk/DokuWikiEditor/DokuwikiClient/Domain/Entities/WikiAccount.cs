@@ -19,13 +19,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ========================================================================
-          
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using CH.Froorider.Codeheap.Domain;
 using System.Xml.Serialization;
+using CH.Froorider.Codeheap.Domain;
 
 namespace DokuwikiClient.Domain.Entities
 {
@@ -33,7 +30,7 @@ namespace DokuwikiClient.Domain.Entities
 	/// A wiki acccount contains information about the remote wiki, like Accountname, Uri, login etc.
 	/// </summary>
 	[Serializable]
-	[XmlRoot(ElementName="WikiAccount",Namespace="www.froorider.ch")]
+	[XmlRoot(ElementName = "WikiAccount", Namespace = "www.froorider.ch")]
 	public class WikiAccount : BusinessObject
 	{
 		#region fields
@@ -50,13 +47,13 @@ namespace DokuwikiClient.Domain.Entities
 		/// </summary>
 		/// <value>The name of the account.</value>
 		public string AccountName { get; set; }
-		
+
 		/// <summary>
 		/// Gets or sets the name of the login.
 		/// </summary>
 		/// <value>The name of the login.</value>
 		public string LoginName { get; set; }
-		
+
 		/// <summary>
 		/// Gets or sets the password.
 		/// </summary>
@@ -98,12 +95,18 @@ namespace DokuwikiClient.Domain.Entities
 				this.WikiUrlRaw = this.wikiUri.ToString();
 			}
 		}
-		
+
 		#endregion
 
-		#region public methods
+		#region Constructors
 
-
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WikiAccount"/> class.
+		/// </summary>
+		public WikiAccount()
+			: base()
+		{
+		}
 
 		#endregion
 	}

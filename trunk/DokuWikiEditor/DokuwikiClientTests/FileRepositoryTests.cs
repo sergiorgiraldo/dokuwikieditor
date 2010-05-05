@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DokuwikiClient.Domain.Entities;
 using CH.Froorider.DokuwikiClient.Persistence;
+using CH.Froorider.DokuwikiClient.Contracts;
 
 namespace DokuWikiClientTests
 {
@@ -18,7 +19,7 @@ namespace DokuWikiClientTests
 			page.WikiPageContent = "ölkjölkfsajdölkjafsd";
 			page.WikiPageName = "start.php";
 
-			FileRepository repository = new FileRepository();
+			IWikiRepository repository = WikiRepositoryFactory.CreateRepository(WikiRepositoryType.FileRepository);
 			string identifier = repository.Store<Wikipage>(page);
 			Assert.IsFalse(String.IsNullOrEmpty(identifier));
 			Assert.AreEqual(identifier, page.ObjectIdentifier);
@@ -33,7 +34,7 @@ namespace DokuWikiClientTests
 			account.Password = "A secret password";
 			account.WikiUrl = new Uri("http://some.where.over/the/Rainbow");
 
-			FileRepository repository = new FileRepository();
+			IWikiRepository repository = WikiRepositoryFactory.CreateRepository(WikiRepositoryType.FileRepository);
 			string targetIdentifier = repository.Store<WikiAccount>(account);
 
 			foreach (string identifier in repository.GetIdentifiers())
@@ -52,7 +53,7 @@ namespace DokuWikiClientTests
 			expectedAccount.Password = "Very secret password";
 			expectedAccount.WikiUrl = new Uri("http://www.doodle.ch/tinyurl/349");
 
-			FileRepository repository = new FileRepository();
+			IWikiRepository repository = WikiRepositoryFactory.CreateRepository(WikiRepositoryType.FileRepository);
 			string targetIdenitfier = repository.Store<WikiAccount>(expectedAccount);
 
 			WikiAccount targetAccount = repository.Load<WikiAccount>(targetIdenitfier);
@@ -67,7 +68,7 @@ namespace DokuWikiClientTests
 			pageToStore.WikiPageName = "first.php";
 			pageToStore.WikiPageContent = "Lorem ipsum dolor sit amet";
 
-			FileRepository repository = new FileRepository();
+			IWikiRepository repository = WikiRepositoryFactory.CreateRepository(WikiRepositoryType.FileRepository);
 			string firstIdentifier = repository.Store<Wikipage>(pageToStore);
 
 			pageToStore.WikiPageContent = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr," +
@@ -76,5 +77,21 @@ namespace DokuWikiClientTests
 
 			Assert.AreEqual(firstIdentifier, secondIdentifier);
 		}
+
+        [TestMethod]
+        public void Load_LoadAPersistedWikiPage_ShouldBeLoadedWithoutErrors()
+        {
+            Wikipage pageToStore = new Wikipage();
+            pageToStore.WikiPageName = "first.php";
+            pageToStore.WikiPageContent = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr ...";
+
+            IWikiRepository repository = WikiRepositoryFactory.CreateRepository(WikiRepositoryType.FileRepository);
+            string pageIdentifier = repository.Store<Wikipage>(pageToStore);
+            repository = null;
+            repository = WikiRepositoryFactory.CreateRepository(WikiRepositoryType.FileRepository);
+
+            Wikipage loadedPage = repository.Load<Wikipage>(pageIdentifier);
+            Assert.AreEqual(pageToStore, loadedPage);
+        }
 	}
 }

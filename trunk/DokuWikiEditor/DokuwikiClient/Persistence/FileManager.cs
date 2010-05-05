@@ -22,22 +22,21 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
+using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using CH.Froorider.Codeheap.Domain;
 using CH.Froorider.Codeheap.Persistence;
-using log4net;
 using DokuwikiClient.Communication.Messages;
+using log4net;
 
 namespace DokuwikiClient.Persistence
 {
 	/// <summary>
 	/// Class which maintains the stored files / business objects.
 	/// </summary>
-	internal class FileManager
+	public class FileManager
 	{
 		#region fields
 

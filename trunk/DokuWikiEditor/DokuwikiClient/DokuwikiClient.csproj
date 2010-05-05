@@ -121,6 +121,8 @@
     <Compile Include="Persistence\FileManager.cs" />
     <Compile Include="Persistence\FileRepository.cs" />
     <Compile Include="Persistence\Registry.cs" />
+    <Compile Include="Persistence\WikiRepositoryFactory.cs" />
+    <Compile Include="Persistence\WikiRepositoryType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

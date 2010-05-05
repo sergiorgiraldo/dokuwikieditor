@@ -22,14 +22,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using CH.Froorider.DokuwikiClient.Contracts;
 using CH.Froorider.Codeheap.Domain;
 using CH.Froorider.Codeheap.Persistence;
-using System.IO;
+using CH.Froorider.DokuwikiClient.Contracts;
 using log4net;
-using DokuwikiClient.Domain.Entities;
 
 namespace CH.Froorider.DokuwikiClient.Persistence
 {
@@ -40,8 +38,9 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 	{
 		#region Fields
 
-		private static readonly string repositoryPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "//TomsCodeHeap//";
-		private static ILog logger = LogManager.GetLogger(typeof(FileRepository));
+		private readonly string repositoryPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "//DokuWikiStore//";
+        private readonly string fileExtension = ".wiki";
+		private ILog logger = LogManager.GetLogger(typeof(FileRepository));
 		private Dictionary<string, BusinessObject> documents = new Dictionary<string, BusinessObject>();
 
 		#endregion
@@ -57,18 +56,18 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 			{
 				DirectoryInfo directory;
 
-				if (!Directory.Exists(FileRepository.repositoryPath))
+				if (!Directory.Exists(this.repositoryPath))
 				{
-					directory = Directory.CreateDirectory(FileRepository.repositoryPath);
+					directory = Directory.CreateDirectory(this.repositoryPath);
 				}
 				else
 				{
-					directory = new DirectoryInfo(FileRepository.repositoryPath);
+					directory = new DirectoryInfo(this.repositoryPath);
 				}
 			}
 			catch (Exception e)
 			{
-				FileRepository.logger.Error("Repository directory could not be created. Cause: " + e.Message);
+				this.logger.Error("Repository directory could not be created. Cause: " + e.Message);
 			}
 		}
 
@@ -107,7 +106,9 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 			}
 			else
 			{
-				throw new WikiRepositoryException();
+                T loadedWikiObject = PersistenceManager.DeserializeObject<T>(id,this.repositoryPath,this.fileExtension);
+                this.documents.Add(id, loadedWikiObject);
+                return loadedWikiObject;
 			}
 		}
 
@@ -126,13 +127,21 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 		{
 			if (businessObjectToStore == null)
 			{
-				throw new ArgumentNullException("businessObjectToStore", "The buisness object to store must be set.");
+				throw new ArgumentNullException("businessObjectToStore");
 			}
 
-			string businessObjectIdentifier = string.Empty;
+			string businessObjectIdentifier = businessObjectToStore.ObjectIdentifier;
 			try
 			{
-				businessObjectIdentifier = businessObjectToStore.Serialize();
+				if (String.IsNullOrEmpty(businessObjectIdentifier))
+				{
+					businessObjectIdentifier = businessObjectToStore.Serialize(this.repositoryPath,this.fileExtension);
+				}
+				else
+				{
+					businessObjectToStore.Serialize(this.repositoryPath,this.fileExtension);
+				}
+
 				if (documents.ContainsKey(businessObjectIdentifier))
 				{
 					documents[businessObjectIdentifier] = businessObjectToStore;
@@ -177,7 +186,7 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 
 			try
 			{
-				businessObjectToStore.Serialize(FileRepository.repositoryPath + id, ".dat");
+				businessObjectToStore.Serialize(this.repositoryPath + id, this.fileExtension);
 				if (documents.ContainsKey(id))
 				{
 					documents[id] = businessObjectToStore;

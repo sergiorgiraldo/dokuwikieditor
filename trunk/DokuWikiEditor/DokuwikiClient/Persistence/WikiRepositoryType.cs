@@ -1,11 +1,11 @@
 ﻿// ========================================================================
-// File:     Wikipage.cs
+// File:     WikiRepositoryType.cs
 // 
 // Author:   $Author$
 // Date:     $LastChangedDate$
 // Revision: $Revision$
 // ========================================================================
-// Copyright [2009] [$Author$]
+// Copyright [2010] [$Author$]
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,33 +20,22 @@
 // limitations under the License.
 // ========================================================================
 
-using System;
-using CH.Froorider.Codeheap.Domain;
-
-
-namespace DokuwikiClient.Domain.Entities
+namespace CH.Froorider.DokuwikiClient.Persistence
 {
 	/// <summary>
-	/// This is the object representation of a wikipage. The page contains information about the creator, version history
-	/// and (logically) the rawWikiPage as a simple string.
+	/// Lists all types of <see cref="CH.Froorider.DokuwikiClient.Contracts.IWikiRepository"/> which can be created 
+	/// using the <see cref="CH.Froorider.DokuwikiClient.Persistence.WikiRepositoryFactory"/>.
 	/// </summary>
-	[Serializable]
-	public class Wikipage : BusinessObject
+	public enum WikiRepositoryType : int
 	{
-		#region properties
+		/// <summary>
+		/// Default value. Used when the enum was used but not initialized.
+		/// </summary>
+		Undefined = 0,
 
 		/// <summary>
-		/// Gets or sets the content of the wiki page.
+		/// Standard repository. Enities are stored using the local file system.
 		/// </summary>
-		/// <value>The content of the wiki page.</value>
-		public string WikiPageContent { get; set; }
-
-		/// <summary>
-		/// Gets or sets the name of the wiki page.
-		/// </summary>
-		/// <value>The name of the wiki page.</value>
-		public string WikiPageName { get; set; }
-
-		#endregion
+		FileRepository = 1
 	}
 }
