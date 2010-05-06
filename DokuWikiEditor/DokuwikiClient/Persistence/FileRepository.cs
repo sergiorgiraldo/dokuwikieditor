@@ -28,6 +28,7 @@ using CH.Froorider.Codeheap.Domain;
 using CH.Froorider.Codeheap.Persistence;
 using CH.Froorider.DokuwikiClient.Contracts;
 using log4net;
+using DokuwikiClient.Domain.Entities;
 
 namespace CH.Froorider.DokuwikiClient.Persistence
 {
@@ -39,9 +40,11 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 		#region Fields
 
 		private readonly string repositoryPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "//DokuWikiStore//";
-        private readonly string fileExtension = ".wiki";
+		private readonly string fileExtension = ".wiki";
+
 		private ILog logger = LogManager.GetLogger(typeof(FileRepository));
 		private Dictionary<string, BusinessObject> documents = new Dictionary<string, BusinessObject>();
+		private DirectoryInfo repositoryDirectory;
 
 		#endregion
 
@@ -54,16 +57,49 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 		{
 			try
 			{
-				DirectoryInfo directory;
-
 				if (!Directory.Exists(this.repositoryPath))
 				{
-					directory = Directory.CreateDirectory(this.repositoryPath);
+					repositoryDirectory = Directory.CreateDirectory(this.repositoryPath);
 				}
 				else
 				{
-					directory = new DirectoryInfo(this.repositoryPath);
+					repositoryDirectory = new DirectoryInfo(this.repositoryPath);
 				}
+
+				FileInfo[] wikiFiles = repositoryDirectory.GetFiles("*" + this.fileExtension);
+
+				foreach (FileInfo wikiFile in wikiFiles)
+				{
+					string[] wikiFileNameParts = wikiFile.Name.Split('.');
+					string fileName = String.Empty;
+
+					if (!String.IsNullOrEmpty(wikiFileNameParts[0]))
+					{
+						fileName = wikiFileNameParts[0];
+					}
+					else
+					{
+						continue;
+					}
+
+					if (this.TryLoadFileAs<WikiAccount>(fileName))
+					{
+						continue;
+					}
+					else if (this.TryLoadFileAs<Wikipage>(fileName))
+					{
+						continue;
+					}
+					else if (this.TryLoadFileAs<BusinessObject>(fileName))
+					{
+						continue;
+					}
+					else
+					{
+						this.logger.Info("Could not load file named " + fileName);
+					}
+				}
+
 			}
 			catch (Exception e)
 			{
@@ -84,7 +120,20 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 		/// </exception>
 		public void Delete(string id)
 		{
-			throw new NotImplementedException();
+			if (this.documents.ContainsKey(id))
+			{
+				FileInfo[] wikiFiles = repositoryDirectory.GetFiles("*" + this.fileExtension);
+				FileInfo fileToDelete = wikiFiles.First<FileInfo>(f => f.Name.Equals(id + this.fileExtension));
+				if (fileToDelete != null)
+				{
+					fileToDelete.Delete();
+					this.documents.Remove(id);
+				}
+			}
+			else
+			{
+				throw new WikiRepositoryException("No wiki object with id: " + id + " found.");
+			}
 		}
 
 		/// <summary>
@@ -106,9 +155,9 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 			}
 			else
 			{
-                T loadedWikiObject = PersistenceManager.DeserializeObject<T>(id,this.repositoryPath,this.fileExtension);
-                this.documents.Add(id, loadedWikiObject);
-                return loadedWikiObject;
+				T loadedWikiObject = PersistenceManager.DeserializeObject<T>(id, this.repositoryPath, this.fileExtension);
+				this.documents.Add(id, loadedWikiObject);
+				return loadedWikiObject;
 			}
 		}
 
@@ -135,11 +184,11 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 			{
 				if (String.IsNullOrEmpty(businessObjectIdentifier))
 				{
-					businessObjectIdentifier = businessObjectToStore.Serialize(this.repositoryPath,this.fileExtension);
+					businessObjectIdentifier = businessObjectToStore.Serialize(this.repositoryPath, this.fileExtension);
 				}
 				else
 				{
-					businessObjectToStore.Serialize(this.repositoryPath,this.fileExtension);
+					businessObjectToStore.Serialize(this.repositoryPath, this.fileExtension);
 				}
 
 				if (documents.ContainsKey(businessObjectIdentifier))
@@ -219,6 +268,31 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 			{
 				return this.documents.Keys.ToList<string>();
 			}
+		}
+
+		#endregion
+
+		#region private methods
+
+		private bool TryLoadFileAs<T>(string fileName) where T : BusinessObject
+		{
+			bool wasLoaded = false;
+
+			try
+			{
+				T wikiObject = PersistenceManager.DeserializeObject<T>(fileName, this.repositoryPath, this.fileExtension);
+				if (wikiObject != null)
+				{
+					this.documents.Add(fileName, wikiObject);
+					wasLoaded = true;
+				}
+			}
+			catch (InvalidOperationException)
+			{
+				this.logger.InfoFormat("File named: {0} is not a {1}", fileName, typeof(T).Name);
+			}
+
+			return wasLoaded;
 		}
 
 		#endregion
