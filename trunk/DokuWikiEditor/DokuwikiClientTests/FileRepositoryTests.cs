@@ -13,6 +13,16 @@ namespace DokuWikiClientTests
 	public class FileRepositoryTests
 	{
 		[TestMethod]
+		public void Constructor_RepositoryIsCreated_CreationWithoutErrors()
+		{
+			IWikiRepository repository = WikiRepositoryFactory.CreateRepository(WikiRepositoryType.FileRepository);
+			foreach (string identifier in repository.GetIdentifiers())
+			{
+				Console.WriteLine("Loaded business object with identifier: {0}" + identifier);
+			}
+		}
+
+		[TestMethod]
 		public void Store_StoreAWikiPage_BusinessObjectShouldBeStoredWithoutErrors()
 		{
 			Wikipage page = new Wikipage();
@@ -28,6 +38,8 @@ namespace DokuWikiClientTests
 		[TestMethod]
 		public void GetIdentifiers_StandardProcedure_AListOfStringsIsReturned()
 		{
+			bool found = false;
+
 			WikiAccount account = new WikiAccount();
 			account.AccountName = "foobar";
 			account.LoginName = "barfoo";
@@ -40,8 +52,14 @@ namespace DokuWikiClientTests
 			foreach (string identifier in repository.GetIdentifiers())
 			{
 				Assert.IsFalse(String.IsNullOrEmpty(identifier));
-				Assert.AreEqual(targetIdentifier, identifier);
+				if (targetIdentifier == identifier)
+				{
+					found = true;
+					break;
+				}
 			}
+
+			Assert.IsTrue(found);
 		}
 
 		[TestMethod]
@@ -78,20 +96,32 @@ namespace DokuWikiClientTests
 			Assert.AreEqual(firstIdentifier, secondIdentifier);
 		}
 
-        [TestMethod]
-        public void Load_LoadAPersistedWikiPage_ShouldBeLoadedWithoutErrors()
-        {
-            Wikipage pageToStore = new Wikipage();
-            pageToStore.WikiPageName = "first.php";
-            pageToStore.WikiPageContent = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr ...";
+		[TestMethod]
+		public void Load_LoadAPersistedWikiPage_ShouldBeLoadedWithoutErrors()
+		{
+			Wikipage pageToStore = new Wikipage();
+			pageToStore.WikiPageName = "first.php";
+			pageToStore.WikiPageContent = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr ...";
 
-            IWikiRepository repository = WikiRepositoryFactory.CreateRepository(WikiRepositoryType.FileRepository);
-            string pageIdentifier = repository.Store<Wikipage>(pageToStore);
-            repository = null;
-            repository = WikiRepositoryFactory.CreateRepository(WikiRepositoryType.FileRepository);
+			IWikiRepository repository = WikiRepositoryFactory.CreateRepository(WikiRepositoryType.FileRepository);
+			string pageIdentifier = repository.Store<Wikipage>(pageToStore);
+			repository = null;
+			repository = WikiRepositoryFactory.CreateRepository(WikiRepositoryType.FileRepository);
 
-            Wikipage loadedPage = repository.Load<Wikipage>(pageIdentifier);
-            Assert.AreEqual(pageToStore, loadedPage);
-        }
+			Wikipage loadedPage = repository.Load<Wikipage>(pageIdentifier);
+			Assert.AreEqual(pageToStore, loadedPage);
+		}
+
+		[TestMethod]
+		public void Delete_SaveAndThenDeleteAWikiPage_ShouldBeDoneWithoutErrors()
+		{
+			Wikipage pageToStore = new Wikipage();
+			pageToStore.WikiPageName = "delete.php";
+			pageToStore.WikiPageContent = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr sed diam nonumy eirmod tempor invidunt ut labore et dolore ...";
+
+			IWikiRepository repository = WikiRepositoryFactory.CreateRepository(WikiRepositoryType.FileRepository);
+			string pageIdentifier = repository.Store<Wikipage>(pageToStore);
+			repository.Delete(pageIdentifier);
+		}
 	}
 }
