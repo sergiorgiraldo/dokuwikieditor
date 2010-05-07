@@ -51,6 +51,8 @@ namespace CH.Froorider.DokuwikiClient.Contracts
 		/// <exception cref="System.ArgumentNullException">Is thrown when <paramref name="id"/> is a <see langword="null"/> reference.</exception>
 		/// <exception cref="WikiRepositoryException">Is thrown when the desired business object referenced by <see paramref="id"/>
 		/// could not be load.</exception>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter",
+			Justification = "Read up on generics!")]
 		T Load<T>(string id) where T : BusinessObject;
 
 		/// <summary>
@@ -84,6 +86,9 @@ namespace CH.Froorider.DokuwikiClient.Contracts
 		/// </summary>
 		/// <returns>An instance of IEnumerable which can be used to identify <see cref="BusinessObject"/>s.</returns>
 		/// <exception cref="WikiRepositoryException">Is thrown when there are no identifiers at all.</exception>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate",
+			Justification = "Becuase this interface does not declare how the internal structure is build which manages the identifiers,"
+			+ "we cannot assume that a property is always possible. And it is more natural style to use a method.")]
 		IEnumerable<string> GetIdentifiers();
 	}
 }

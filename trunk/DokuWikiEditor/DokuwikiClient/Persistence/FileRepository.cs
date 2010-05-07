@@ -27,8 +27,8 @@ using System.Linq;
 using CH.Froorider.Codeheap.Domain;
 using CH.Froorider.Codeheap.Persistence;
 using CH.Froorider.DokuwikiClient.Contracts;
-using log4net;
 using DokuwikiClient.Domain.Entities;
+using log4net;
 
 namespace CH.Froorider.DokuwikiClient.Persistence
 {
@@ -53,20 +53,22 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 		/// <summary>
 		/// Initializes a new instance of the <see cref="FileRepository"/> class.
 		/// </summary>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes",
+			Justification = "In this case we have so many exceptions which cannot be handled, that we can use this general pattern.")]
 		internal FileRepository()
 		{
 			try
 			{
 				if (!Directory.Exists(this.repositoryPath))
 				{
-					repositoryDirectory = Directory.CreateDirectory(this.repositoryPath);
+					this.repositoryDirectory = Directory.CreateDirectory(this.repositoryPath);
 				}
 				else
 				{
-					repositoryDirectory = new DirectoryInfo(this.repositoryPath);
+					this.repositoryDirectory = new DirectoryInfo(this.repositoryPath);
 				}
 
-				FileInfo[] wikiFiles = repositoryDirectory.GetFiles("*" + this.fileExtension);
+				FileInfo[] wikiFiles = this.repositoryDirectory.GetFiles("*" + this.fileExtension);
 
 				foreach (FileInfo wikiFile in wikiFiles)
 				{
@@ -99,7 +101,6 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 						this.logger.Info("Could not load file named " + fileName);
 					}
 				}
-
 			}
 			catch (Exception e)
 			{
@@ -122,7 +123,7 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 		{
 			if (this.documents.ContainsKey(id))
 			{
-				FileInfo[] wikiFiles = repositoryDirectory.GetFiles("*" + this.fileExtension);
+				FileInfo[] wikiFiles = this.repositoryDirectory.GetFiles("*" + this.fileExtension);
 				FileInfo fileToDelete = wikiFiles.First<FileInfo>(f => f.Name.Equals(id + this.fileExtension));
 				if (fileToDelete != null)
 				{
@@ -191,13 +192,13 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 					businessObjectToStore.Serialize(this.repositoryPath, this.fileExtension);
 				}
 
-				if (documents.ContainsKey(businessObjectIdentifier))
+				if (this.documents.ContainsKey(businessObjectIdentifier))
 				{
-					documents[businessObjectIdentifier] = businessObjectToStore;
+					this.documents[businessObjectIdentifier] = businessObjectToStore;
 				}
 				else
 				{
-					documents.Add(businessObjectIdentifier, businessObjectToStore);
+					this.documents.Add(businessObjectIdentifier, businessObjectToStore);
 				}
 			}
 			catch (InvalidOperationException ioe)
@@ -236,13 +237,13 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 			try
 			{
 				businessObjectToStore.Serialize(this.repositoryPath + id, this.fileExtension);
-				if (documents.ContainsKey(id))
+				if (this.documents.ContainsKey(id))
 				{
-					documents[id] = businessObjectToStore;
+					this.documents[id] = businessObjectToStore;
 				}
 				else
 				{
-					documents.Add(id, businessObjectToStore);
+					this.documents.Add(id, businessObjectToStore);
 				}
 			}
 			catch (InvalidOperationException ioe)
