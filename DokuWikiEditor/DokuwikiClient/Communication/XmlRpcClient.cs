@@ -40,8 +40,7 @@ namespace DokuwikiClient.Communication
 	{
 		#region fields
 
-		private static ILog logger = LogManager.GetLogger(typeof(XmlRpcClient));
-
+		private ILog logger = LogManager.GetLogger(typeof(XmlRpcClient));
 		private IDokuWikiClient clientProxy;
 
 		#endregion

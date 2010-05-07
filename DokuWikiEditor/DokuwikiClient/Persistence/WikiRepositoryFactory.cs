@@ -31,6 +31,14 @@ namespace CH.Froorider.DokuwikiClient.Persistence
 	public class WikiRepositoryFactory
 	{
 		/// <summary>
+		/// Initializes a new instance of the <see cref="WikiRepositoryFactory"/> class.
+		/// </summary>
+		/// <remarks>Is private to ensure nobody can create an instance of this class accidentally.</remarks>
+		private WikiRepositoryFactory()
+		{
+		}
+
+		/// <summary>
 		/// Creates the <see cref="IWikiRepository"/> instance to a given <see cref="WikiRepositoryType"/>.
 		/// </summary>
 		/// <param name="typeToCreate">The type of <see cref="IWikiRepository"/> to create.</param>

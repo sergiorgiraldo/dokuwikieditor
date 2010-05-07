@@ -42,8 +42,7 @@ namespace DokuwikiClient
 	{
 		#region Fields
 
-		private static ILog logger = LogManager.GetLogger(typeof(DokuWikiClient).Name);
-
+		private ILog logger = LogManager.GetLogger(typeof(DokuWikiClient).Name);
 		private XmlRpcClient client;
 		private FileManager fileManager = new FileManager();
 
