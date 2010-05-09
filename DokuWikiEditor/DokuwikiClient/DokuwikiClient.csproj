@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{76C0C243-DDC6-42F6-ACD4-012867234D3B}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -95,7 +95,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Communication\IDokuWikiClient.cs" />
+    <Compile Include="Contracts\IDokuWikiClient.cs" />
+    <Compile Include="Contracts\IDokuWikiProvider.cs" />
     <Compile Include="Communication\Messages\CommunicationException.cs" />
     <Compile Include="Communication\Messages\DokuWikiClientException.cs" />
     <Compile Include="Communication\Messages\XmlRpcFaultCodes.cs" />
@@ -105,10 +106,12 @@
     <Compile Include="Communication\XmlRpcMessages\PutParameters.cs" />
     <Compile Include="Communication\XmlRpcMessages\SpecificationInfo.cs" />
     <Compile Include="Communication\XmlRpcMessages\XmlRpcMessage.cs" />
+    <Compile Include="Contracts\IIntrospectionApiProvider.cs" />
     <Compile Include="Contracts\IWikiRepository.cs" />
     <Compile Include="Contracts\WikiRepositoryException.cs" />
     <Compile Include="DokuWikiClient.cs" />
     <Compile Include="DokuWikiClientConsole.cs" />
+    <Compile Include="DokuWikiClientFactory.cs" />
     <Compile Include="DokuWikiEngine.cs" />
     <Compile Include="Domain\Entities\WikiAccount.cs" />
     <Compile Include="Domain\Entities\Wikipage.cs" />
@@ -118,9 +121,7 @@
     <Compile Include="Formatting\Renderers\DokuWikiCodeRenderer.cs" />
     <Compile Include="Formatting\Renderers\DokuWikiHeadingsRenderer.cs" />
     <Compile Include="Formatting\DokuWikiScope.cs" />
-    <Compile Include="Persistence\FileManager.cs" />
     <Compile Include="Persistence\FileRepository.cs" />
-    <Compile Include="Persistence\Registry.cs" />
     <Compile Include="Persistence\WikiRepositoryFactory.cs" />
     <Compile Include="Persistence\WikiRepositoryType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

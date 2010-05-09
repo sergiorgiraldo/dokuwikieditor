@@ -1,5 +1,5 @@
 ﻿// ========================================================================
-// File:     IDokuWikiClient.cs
+// File:     IDokuWikiProvider.cs
 //
 // Author:   $Author$
 // Date:     $LastChangedDate$
@@ -23,12 +23,12 @@
 using CookComputing.XmlRpc;
 using DokuwikiClient.Communication.XmlRpcMessages;
 
-namespace DokuwikiClient.Communication
+namespace CH.Froorider.DokuwikiClient.Contracts
 {
 	/// <summary>
 	/// Definition of the remote procedure calls of the DokuWikiServer. 
 	/// </summary>
-	public interface IDokuWikiClient : IXmlRpcProxy
+	public interface IDokuWikiProvider : IXmlRpcProxy
 	{
 		#region Introspection API
 

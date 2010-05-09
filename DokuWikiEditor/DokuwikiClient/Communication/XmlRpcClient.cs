@@ -26,9 +26,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using CookComputing.XmlRpc;
-using DokuwikiClient.Communication.Messages;
 using DokuwikiClient.Communication.XmlRpcMessages;
 using log4net;
+using CH.Froorider.DokuwikiClient.Contracts;
+using CH.Froorider.DokuwikiClient.Communication.Messages;
 
 namespace DokuwikiClient.Communication
 {
@@ -41,7 +42,7 @@ namespace DokuwikiClient.Communication
 		#region fields
 
 		private ILog logger = LogManager.GetLogger(typeof(XmlRpcClient));
-		private IDokuWikiClient clientProxy;
+		private IDokuWikiProvider clientProxy;
 
 		#endregion
 
@@ -56,7 +57,7 @@ namespace DokuwikiClient.Communication
 		{
 			try
 			{
-				this.clientProxy = XmlRpcProxyGen.Create<IDokuWikiClient>();
+				this.clientProxy = XmlRpcProxyGen.Create<IDokuWikiProvider>();
 				this.clientProxy.NonStandard = XmlRpcNonStandard.AllowNonStandardDateTime;
 				this.clientProxy.Url = serverUrl.AbsoluteUri;
 				Console.WriteLine("XmlRpc proxy to URL: " + serverUrl.AbsoluteUri + " generated.");
@@ -208,7 +209,7 @@ namespace DokuwikiClient.Communication
 
 		#endregion
 
-		#region IDokuWikiClient Member
+		#region IDokuWiki Members
 
 		/// <summary>
 		/// Gets a wikipage identified by it's name as raw wiki text.
