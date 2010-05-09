@@ -11,10 +11,11 @@
 
     using DokuwikiClient;
     using DokuwikiClient.Communication;
-    using DokuwikiClient.Communication.Messages;
     using DokuwikiClient.Communication.XmlRpcMessages;
     using DokuwikiClient.Domain.Entities;
-    using DokuwikiClient.Persistence;
+    using CH.Froorider.DokuwikiClient.Communication.Messages;
+    using CH.Froorider.DokuwikiClient.Contracts;
+    using CH.Froorider.DokuwikiClient.Persistence;
 
     /// <summary>
     /// Interaktionslogik für Window1.xaml
@@ -25,7 +26,7 @@
 
         private WikiAccount activeAccount = new WikiAccount();
         private XmlRpcClient client;
-        private DokuWikiClient dokuWikiClient = new DokuWikiClient();
+        private IDokuWikiClient dokuWikiClient = DokuWikiClientFactory.CreateDokuWikiClient(null);
         private DokuWikiEngine engine = new DokuWikiEngine();
         private List<WikiAccount> knownWikiAccounts = new List<WikiAccount>();
         private BackgroundWorker worker;

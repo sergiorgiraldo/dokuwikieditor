@@ -9,6 +9,7 @@
     using DokuWikiEditor.Dialog;
 
     using DokuwikiClient.Domain.Entities;
+    using CH.Froorider.DokuwikiClient.Contracts;
 
     /// <summary>
     /// Interaction logic for WikiAccountManagementWindow.xaml
@@ -17,7 +18,7 @@
     {
         #region Fields
 
-        public DokuwikiClient.DokuWikiClient clientToUse;
+        public IDokuWikiClient clientToUse;
 
         private List<WikiAccount> wikiAccounts;
 

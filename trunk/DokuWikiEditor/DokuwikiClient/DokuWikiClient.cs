@@ -1,6 +1,4 @@
-﻿#region Header
-
-// ========================================================================
+﻿// ========================================================================
 // File:     DokuWikiClient.cs
 //
 // Author:   $Author$
@@ -22,39 +20,38 @@
 // limitations under the License.
 // ========================================================================
 
-#endregion Header
+using System;
+using System.Collections.Generic;
+using System.Net;
+using CH.Froorider.DokuwikiClient.Communication.Messages;
+using CH.Froorider.DokuwikiClient.Contracts;
+using CH.Froorider.DokuwikiClient.Persistence;
+using DokuwikiClient.Communication;
+using DokuwikiClient.Domain.Entities;
+using log4net;
 
-namespace DokuwikiClient
+namespace CH.Froorider.DokuwikiClient
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Net;
-	using DokuwikiClient.Communication;
-	using DokuwikiClient.Communication.Messages;
-	using DokuwikiClient.Domain.Entities;
-	using DokuwikiClient.Persistence;
-	using log4net;
-
 	/// <summary>
 	/// Root class for all applications using the library. Offers the access on the core functionality, objects, etc.
 	/// </summary>
-	public class DokuWikiClient
+	internal class DokuWikiClient : IDokuWikiClient
 	{
 		#region Fields
 
 		private ILog logger = LogManager.GetLogger(typeof(DokuWikiClient).Name);
 		private XmlRpcClient client;
-		private FileManager fileManager = new FileManager();
+        private IWikiRepository repository = WikiRepositoryFactory.CreateRepository(WikiRepositoryType.FileRepository);
 
 		#endregion Fields
 
-		#region Methods
+		#region public Methods
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DokuWikiClient"/> class.
 		/// </summary>
 		/// <param name="account">The account to use for the communication etc.</param>
-		public void InitializeDokuWikiClient(WikiAccount account)
+		internal void InitializeDokuWikiClient(WikiAccount account)
 		{
 			if (account == null || account.WikiUrlRaw == null)
 			{
@@ -71,7 +68,28 @@ namespace DokuwikiClient
 		/// <returns></returns>
 		public List<WikiAccount> LoadWikiAccounts()
 		{
-			return this.fileManager.LoadObjects<WikiAccount>(typeof(WikiAccount).Name);
+            List<WikiAccount> accounts = new List<WikiAccount>();
+
+            List<string> identifiers;
+            try
+            {
+                identifiers = (List<string>)repository.GetIdentifiers();
+            }
+            catch (WikiRepositoryException)
+            {
+                identifiers = new List<string>();
+            }
+
+            foreach(string identifier in identifiers)
+            {
+                WikiAccount loadedAccount = repository.Load<WikiAccount>(identifier);
+                if (loadedAccount != null)
+                {
+                    accounts.Add(loadedAccount);
+                }
+            }
+
+            return accounts;
 		}
 
 		/// <summary>
@@ -80,10 +98,14 @@ namespace DokuwikiClient
 		/// <param name="accountToSave">The account to save.</param>
 		public void SaveWikiAccount(WikiAccount accountToSave)
 		{
-			this.fileManager.Save<WikiAccount>(accountToSave);
-		}
+            repository.Store<WikiAccount>(accountToSave);
+        }
 
-		/// <summary>
+        #endregion
+
+        #region private Methods
+
+        /// <summary>
 		/// Establishes the connection to the wiki.
 		/// </summary>
 		/// <returns>True, if the connection to the wikiserver could be established. False if not.</returns>

@@ -20,8 +20,7 @@
 //limitations under the License.
 //========================================================================
 
-
-namespace DokuwikiClient.Communication.Messages
+namespace CH.Froorider.DokuwikiClient.Communication.Messages
 {
 	/// <summary>
 	/// Declares all Xml Rpc Fault codes which are specified in the "Specification for fault code interoperability" version 20010516.

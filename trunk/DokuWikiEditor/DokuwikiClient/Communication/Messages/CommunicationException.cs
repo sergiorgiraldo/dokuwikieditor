@@ -22,7 +22,7 @@
           
 using System;
 
-namespace DokuwikiClient.Communication.Messages
+namespace CH.Froorider.DokuwikiClient.Communication.Messages
 {
 	/// <summary>
 	/// This type of exception is a wrapper around the whole bunch of XmlRpc exceptions. Especially the CookComputing specific exceptions.
