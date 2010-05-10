@@ -37,16 +37,43 @@ namespace DokuwikiClient.Communication
 	/// Proxy class for the communication between the program and the XmlRpcServer.
 	/// Wraps all the remote method calls in a common way.
 	/// </summary>
-	public class XmlRpcClient
+	internal class XmlRpcClient : IDokuWikiProvider
 	{
 		#region fields
 
 		private ILog logger = LogManager.GetLogger(typeof(XmlRpcClient));
-		private IDokuWikiProvider clientProxy;
+		private IDokuWikiProxy clientProxy;
 
 		#endregion
 
 		#region Constructor
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="XmlRpcClient"/> class.
+		/// </summary>
+		/// <param name="serverUri">The server URI.</param>
+		/// <param name="userName">The username to use as login.</param>
+		/// <param name="passWord">The password to use to authenticate.</param>
+		/// <exception cref="ArgumentNullException"> Is thrown when
+		///		<para><paramref name="userName"/> is a <see langword="null"/> reference</para>
+		///		<para>- or -</para>			
+		///		<para><paramref name="passWord"/> is a <see langword="null"/> reference.</para>
+		/// </exception>
+		public XmlRpcClient(Uri serverUri, string userName, string passWord)
+			: this(serverUri)
+		{
+			if (String.IsNullOrEmpty(userName))
+			{
+				throw new ArgumentNullException("userName");
+			}
+
+			if (String.IsNullOrEmpty(passWord))
+			{
+				throw new ArgumentNullException("passWord");
+			}
+
+			this.clientProxy.Credentials = new NetworkCredential(userName, passWord);
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="XmlRpcClient"/> class.
@@ -57,7 +84,7 @@ namespace DokuwikiClient.Communication
 		{
 			try
 			{
-				this.clientProxy = XmlRpcProxyGen.Create<IDokuWikiProvider>();
+				this.clientProxy = XmlRpcProxyGen.Create<IDokuWikiProxy>();
 				this.clientProxy.NonStandard = XmlRpcNonStandard.AllowNonStandardDateTime;
 				this.clientProxy.Url = serverUrl.AbsoluteUri;
 				Console.WriteLine("XmlRpc proxy to URL: " + serverUrl.AbsoluteUri + " generated.");
@@ -83,11 +110,11 @@ namespace DokuwikiClient.Communication
 		/// <exception cref="ArgumentException">Is thrown when the XmlRpc server is not enabled.</exception>
 		/// <exception cref="CommunicationException">Is thrown when the Xml-Rpc mechanism had errors.</exception>
 		/// <exception cref="WebException">Is thrown when the HTTP connection had errors.</exception>
-		public Capability GetServerCapabilites()
+		public Capability LoadServerCapabilites()
 		{
 			try
 			{
-				return this.clientProxy.GetCapabilities();
+				return this.clientProxy.LoadServerCapabilites();
 			}
 			catch (WebException we)
 			{
@@ -153,7 +180,7 @@ namespace DokuwikiClient.Communication
 		/// <exception cref="ArgumentException">Is thrown when the <paramref name="methodName"/> is unkown at remote host.</exception>
 		/// <exception cref="CommunicationException">Is thrown when the Xml-Rpc mechanism had errors.</exception>
 		/// <exception cref="WebException">Is thrown when the HTTP connection had errors.</exception>
-		public object[] GetMethodSignatures(string methodName)
+		public object[] LoadMethodSignatures(string methodName)
 		{
 			try
 			{
@@ -184,7 +211,7 @@ namespace DokuwikiClient.Communication
 		/// <exception cref="ArgumentException">Is thrown when the <paramref name="methodName"/> is unkown at remote host.</exception>
 		/// <exception cref="CommunicationException">Is thrown when the Xml-Rpc mechanism had errors.</exception>
 		/// <exception cref="WebException">Is thrown when the HTTP connection had errors.</exception>
-		public string GetMethodHelp(string methodName)
+		public string LoadMethodHelp(string methodName)
 		{
 			try
 			{
