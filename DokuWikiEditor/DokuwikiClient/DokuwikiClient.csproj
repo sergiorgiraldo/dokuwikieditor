@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{76C0C243-DDC6-42F6-ACD4-012867234D3B}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Communication\XmlRpcProxyFactory.cs" />
     <Compile Include="Contracts\IDokuWikiClient.cs" />
     <Compile Include="Contracts\IDokuWikiProvider.cs" />
     <Compile Include="Communication\Messages\CommunicationException.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Communication\XmlRpcMessages\PutParameters.cs" />
     <Compile Include="Communication\XmlRpcMessages\SpecificationInfo.cs" />
     <Compile Include="Communication\XmlRpcMessages\XmlRpcMessage.cs" />
+    <Compile Include="Contracts\IDokuWikiProxy.cs" />
     <Compile Include="Contracts\IIntrospectionApiProvider.cs" />
     <Compile Include="Contracts\IWikiRepository.cs" />
     <Compile Include="Contracts\WikiRepositoryException.cs" />
