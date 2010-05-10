@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DokuWikiClientTests", "Doku
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DokuWikiEditor", "DokuwikiEditor\DokuWikiEditor.csproj", "{BB410718-2E0A-489C-A1E3-9D596BFA8071}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DokuWikiClientConsoleApplication", "DokuWikiClientConsoleApplication\DokuWikiClientConsoleApplication.csproj", "{4F54E882-D72D-42F7-AC69-1C01D8846430}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -43,6 +45,10 @@ Global
 		{BB410718-2E0A-489C-A1E3-9D596BFA8071}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB410718-2E0A-489C-A1E3-9D596BFA8071}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB410718-2E0A-489C-A1E3-9D596BFA8071}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F54E882-D72D-42F7-AC69-1C01D8846430}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F54E882-D72D-42F7-AC69-1C01D8846430}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F54E882-D72D-42F7-AC69-1C01D8846430}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F54E882-D72D-42F7-AC69-1C01D8846430}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
