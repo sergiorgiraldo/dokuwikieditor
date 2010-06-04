@@ -27,7 +27,7 @@
 
 		private WikiAccount activeAccount = new WikiAccount();
 		private IDokuWikiProvider clientProxy;
-		private IDokuWikiClient dokuWikiClient = DokuWikiClientFactory.CreateDokuWikiClient(null);
+		private IDokuWikiClient dokuWikiClient = DokuWikiClientFactory.CreateDokuWikiClient();
 		private DokuWikiEngine engine = new DokuWikiEngine();
 		private List<WikiAccount> knownWikiAccounts = new List<WikiAccount>();
 		private BackgroundWorker worker;

@@ -26,35 +26,46 @@ using DokuwikiClient.Domain.Entities;
 
 namespace CH.Froorider.DokuwikiClient.Persistence
 {
-    /// <summary>
-    /// Creates instances of <see cref="IDokuWikiClient"/> according to the given <see cref="WikiAccount"/>.
-    /// </summary>
-    public class DokuWikiClientFactory
-    {
+	/// <summary>
+	/// Creates instances of <see cref="IDokuWikiClient"/> according to the given <see cref="WikiAccount"/>.
+	/// </summary>
+	public class DokuWikiClientFactory
+	{
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DokuWikiClientFactory"/> class.
-        /// </summary>
-        /// <remarks>Is private to ensure nobody can create an instance of this class accidentally.</remarks>
-        private DokuWikiClientFactory()
-        {
-        }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DokuWikiClientFactory"/> class.
+		/// </summary>
+		/// <remarks>Is private to ensure nobody can create an instance of this class accidentally.</remarks>
+		private DokuWikiClientFactory()
+		{
+		}
 
-        /// <summary>
-        /// Creates the doku wiki client.
-        /// </summary>
-        /// <param name="account">The account.</param>
-        /// <returns></returns>
-        public static IDokuWikiClient CreateDokuWikiClient(WikiAccount account)
-        {
-            if (account == null)
-            {
-                throw new ArgumentNullException("account");
-            }
+		/// <summary>
+		/// Creates a non-initialized instance of <see cref="IDokuWikiClient"/>. Can be used to load locally stored things like 
+		/// <see cref="WikiAccount"/>s.
+		/// </summary>
+		/// <returns>An instance of <see cref="IDokuWikiClient"/>.</returns>
+		public static IDokuWikiClient CreateDokuWikiClient()
+		{
+			return new DokuWikiClient();
+		}
 
-            DokuWikiClient client = new DokuWikiClient();
-            client.InitializeDokuWikiClient(account);
-            return client;
-        }
-    }
+		/// <summary>
+		/// Creates the doku wiki client.
+		/// </summary>
+		/// <param name="account">The account to use for communication.</param>
+		/// <returns>An initialized instance of <see cref="IDokuWikiClient"/> associated with the given <see cref="WikiAccount"/>.</returns>
+		/// <exception cref="ArgumentNullException">Is thrown when <paramref name="account"/> is a <see langword="null"/> reference.</exception>
+		public static IDokuWikiClient CreateDokuWikiClient(WikiAccount account)
+		{
+			if (account == null)
+			{
+				throw new ArgumentNullException("account");
+			}
+
+			DokuWikiClient client = new DokuWikiClient();
+			client.InitializeDokuWikiClient(account);
+			return client;
+		}
+	}
 }
