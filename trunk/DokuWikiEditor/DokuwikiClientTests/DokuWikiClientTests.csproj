@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="FileRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WikipageTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DokuwikiClient\DokuwikiClient.csproj">

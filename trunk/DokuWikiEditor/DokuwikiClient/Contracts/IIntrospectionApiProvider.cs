@@ -20,11 +20,8 @@
 // limitations under the License.
 // ========================================================================
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DokuwikiClient.Communication.XmlRpcMessages;
 using CookComputing.XmlRpc;
+using DokuwikiClient.Communication.XmlRpcMessages;
 
 namespace CH.Froorider.DokuwikiClient.Contracts
 {

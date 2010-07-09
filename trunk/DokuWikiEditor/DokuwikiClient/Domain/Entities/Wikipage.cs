@@ -23,7 +23,6 @@
 using System;
 using CH.Froorider.Codeheap.Domain;
 
-
 namespace DokuwikiClient.Domain.Entities
 {
 	/// <summary>
@@ -33,7 +32,13 @@ namespace DokuwikiClient.Domain.Entities
 	[Serializable]
 	public class Wikipage : BusinessObject
 	{
-		#region properties
+		#region fields
+
+		private string accountName = String.Empty;
+
+		#endregion
+
+		#region Properties
 
 		/// <summary>
 		/// Gets or sets the content of the wiki page.
@@ -46,6 +51,66 @@ namespace DokuwikiClient.Domain.Entities
 		/// </summary>
 		/// <value>The name of the wiki page.</value>
 		public string WikiPageName { get; set; }
+
+		#endregion
+
+		#region Constructor
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Wikipage"/> class.
+		/// </summary>
+		/// <remarks>This internal constructor is needed in order to provide serialization.</remarks>
+		internal Wikipage()
+			: base()
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Wikipage"/> class.
+		/// </summary>
+		/// <param name="account">The account this page is associated with.</param>
+		/// <exception cref="ArgumentNullException">Is thrown when <paramref name="account"/> is a <see langword="null"/> reference.</exception>
+		public Wikipage(WikiAccount account)
+			: base()
+		{
+			if (account == null)
+			{
+				throw new ArgumentNullException("account");
+			}
+
+			this.accountName = account.AccountName;
+		}
+
+		#endregion
+
+		#region Methods
+
+		/// <summary>
+		/// Determines whether this page is associated with an account.
+		/// </summary>
+		/// <returns>
+		/// 	<see langword="true"/> if this page is associated with an account; otherwise, <see langword="false"/>.
+		/// </returns>
+		public bool IsAssociatedWithAnAccount()
+		{
+			if (String.IsNullOrEmpty(this.accountName))
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+
+		/// <summary>
+		/// Gets the name of the associated account.
+		/// </summary>
+		/// <returns>A string containing the name of the assoicated account. Can be an empty string.</returns>
+		public string GetAssociatedAccountName()
+		{
+			return this.accountName;
+		}
 
 		#endregion
 	}

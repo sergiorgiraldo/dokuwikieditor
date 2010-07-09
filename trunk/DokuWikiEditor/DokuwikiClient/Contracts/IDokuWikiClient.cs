@@ -22,27 +22,33 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using DokuwikiClient.Domain.Entities;
 
 namespace CH.Froorider.DokuwikiClient.Contracts
 {
-    /// <summary>
-    /// Defines the methods a customer of this library can consume.
-    /// </summary>
-    public interface IDokuWikiClient
-    {
-        /// <summary>
+	/// <summary>
+	/// Defines the methods a customer of this library can consume.
+	/// </summary>
+	public interface IDokuWikiClient
+	{
+		/// <summary>
 		/// Loads the wiki accounts.
 		/// </summary>
 		/// <returns></returns>
-        List<WikiAccount> LoadWikiAccounts();
+		List<WikiAccount> LoadWikiAccounts();
 
-        /// <summary>
+		/// <summary>
 		/// Saves the wiki account.
 		/// </summary>
 		/// <param name="accountToSave">The account to save.</param>
-        void SaveWikiAccount(WikiAccount accountToSave);
-    }
+		void SaveWikiAccount(WikiAccount accountToSave);
+
+		/// <summary>
+		/// Loads the wiki pages associated with a certain account.
+		/// </summary>
+		/// <param name="account">The <see cref="WikiAccount"/> the pages are associated with.</param>
+		/// <returns>A List of all found <see cref="Wikipage"/>s in the store.</returns>
+		/// <exception cref="ArgumentNullException">Is thrown when <paramref name="account"/> is a <see langword="null"/> reference.</exception>
+		List<Wikipage> LoadWikiPages(WikiAccount account);
+	}
 }

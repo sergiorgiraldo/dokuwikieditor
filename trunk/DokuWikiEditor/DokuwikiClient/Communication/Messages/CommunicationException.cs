@@ -19,7 +19,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ========================================================================
-          
+
 using System;
 
 namespace CH.Froorider.DokuwikiClient.Communication.Messages
@@ -27,7 +27,7 @@ namespace CH.Froorider.DokuwikiClient.Communication.Messages
 	/// <summary>
 	/// This type of exception is a wrapper around the whole bunch of XmlRpc exceptions. Especially the CookComputing specific exceptions.
 	/// </summary>
-	[Serializable]   
+	[Serializable]
 	public class CommunicationException : Exception
 	{
 		#region Constructors
