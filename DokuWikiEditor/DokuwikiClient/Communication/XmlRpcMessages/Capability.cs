@@ -55,7 +55,7 @@ namespace DokuwikiClient.Communication.XmlRpcMessages
 		[XmlRpcMember("system.multicall")]
 		[XmlRpcMissingMapping(MappingAction.Ignore)]
 		public SpecificationInfo MultiCallSpecification { get; set; }
-		
+
 		/// <summary>
 		/// Gets or sets the implemented Introspection API specification.
 		/// </summary>

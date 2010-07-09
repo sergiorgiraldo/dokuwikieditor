@@ -49,7 +49,8 @@ namespace DokuWikiClientTests
 		[TestMethod]
 		public void Store_StoreAWikiPage_BusinessObjectShouldBeStoredWithoutErrors()
 		{
-			Wikipage page = new Wikipage();
+			WikiAccount account = new WikiAccount();
+			Wikipage page = new Wikipage(account);
 			page.WikiPageContent = "ölkjölkfsajdölkjafsd";
 			page.WikiPageName = "start.php";
 
@@ -62,7 +63,8 @@ namespace DokuWikiClientTests
 		[TestMethod]
 		public void Store_StoreAModifiedWikiAccount_IdentifierShouldStayTheSame()
 		{
-			Wikipage pageToStore = new Wikipage();
+			WikiAccount account = new WikiAccount();
+			Wikipage pageToStore = new Wikipage(account);
 			pageToStore.WikiPageName = "first.php";
 			pageToStore.WikiPageContent = "Lorem ipsum dolor sit amet";
 
@@ -185,7 +187,8 @@ namespace DokuWikiClientTests
 		[TestMethod]
 		public void Load_LoadAPersistedWikiPage_ShouldBeLoadedWithoutErrors()
 		{
-			Wikipage pageToStore = new Wikipage();
+			WikiAccount account = new WikiAccount();
+			Wikipage pageToStore = new Wikipage(account);
 			pageToStore.WikiPageName = "first.php";
 			pageToStore.WikiPageContent = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr ...";
 
@@ -205,7 +208,8 @@ namespace DokuWikiClientTests
 		[TestMethod]
 		public void Delete_SaveAndThenDeleteAWikiPage_ShouldBeDoneWithoutErrors()
 		{
-			Wikipage pageToStore = new Wikipage();
+			WikiAccount account = new WikiAccount();
+			Wikipage pageToStore = new Wikipage(account);
 			pageToStore.WikiPageName = "delete.php";
 			pageToStore.WikiPageContent = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr sed diam nonumy eirmod tempor invidunt ut labore et dolore ...";
 

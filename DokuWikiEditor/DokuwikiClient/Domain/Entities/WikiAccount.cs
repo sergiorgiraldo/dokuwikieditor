@@ -61,6 +61,14 @@ namespace DokuwikiClient.Domain.Entities
 		public string Password { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether this instance is active.
+		/// </summary>
+		/// <value>
+		/// 	<see langword="true"/> if this instance is active; otherwise, <see langword="false"/>.
+		/// </value>
+		public bool IsActive { get; set; }
+
+		/// <summary>
 		/// Gets the wiki URL as a string.
 		/// </summary>
 		/// <value>The wiki URL as a string.</value>

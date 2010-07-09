@@ -25,11 +25,11 @@ using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using CH.Froorider.DokuwikiClient.Communication.Messages;
+using CH.Froorider.DokuwikiClient.Contracts;
 using CookComputing.XmlRpc;
 using DokuwikiClient.Communication.XmlRpcMessages;
 using log4net;
-using CH.Froorider.DokuwikiClient.Contracts;
-using CH.Froorider.DokuwikiClient.Communication.Messages;
 
 namespace DokuwikiClient.Communication
 {

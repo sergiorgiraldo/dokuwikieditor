@@ -48,7 +48,8 @@
 			this.updateActiveAccountsList();
 			if (this.activeAccountSelector.SelectedItem != null)
 			{
-				this.activeAccount = this.activeAccountSelector.SelectedItem as WikiAccount;
+				string selectedAccountName = this.activeAccountSelector.SelectedItem as string;
+				this.activeAccount = this.knownWikiAccounts.Find(accountList => accountList.AccountName.Equals(selectedAccountName));
 				this.connectToWikiButton_Click(this, new RoutedEventArgs());
 			}
 			this.activeAccountSelector.SelectionChanged += activeAccountSelector_SelectionChanged;
@@ -75,8 +76,7 @@
 		/// <param name="e">The <see cref="System.ComponentModel.DoWorkEventArgs"/> instance containing the event data.</param>
 		private void BeginConnectToWiki(object sender, DoWorkEventArgs e)
 		{
-			string urlOfWiki = e.Argument as string;
-			this.clientProxy = XmlRpcProxyFactory.CreateCommunicationProxy(new Uri(urlOfWiki));
+			this.clientProxy = XmlRpcProxyFactory.CreateCommunicationProxy(new Uri(this.activeAccount.WikiUrlRaw));
 			clientProxy.ListServerMethods();
 		}
 
@@ -123,6 +123,8 @@
 		{
 			string selectedAccountName = this.activeAccountSelector.SelectedItem as string;
 			this.activeAccount = this.knownWikiAccounts.Find(accountList => accountList.AccountName.Equals(selectedAccountName));
+			this.activeAccount.IsActive = true;
+			this.dokuWikiClient.SaveWikiAccount(this.activeAccount);
 			this.connectToWikiButton_Click(this, new RoutedEventArgs());
 		}
 
@@ -236,8 +238,13 @@
 			this.activeAccountSelector.Items.Clear();
 			foreach (WikiAccount account in this.knownWikiAccounts)
 			{
-				this.activeAccountSelector.Items.Add(account.AccountName);
+				int index = this.activeAccountSelector.Items.Add(account.AccountName);
+				if (account.IsActive)
+				{
+					this.activeAccountSelector.SelectedIndex = index;
+				}
 			}
+
 		}
 
 		#endregion Methods
