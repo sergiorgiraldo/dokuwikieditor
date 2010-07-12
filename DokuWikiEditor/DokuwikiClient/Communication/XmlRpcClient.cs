@@ -30,6 +30,8 @@ using CH.Froorider.DokuwikiClient.Contracts;
 using CookComputing.XmlRpc;
 using DokuwikiClient.Communication.XmlRpcMessages;
 using log4net;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Security;
 
 namespace DokuwikiClient.Communication
 {
@@ -73,6 +75,7 @@ namespace DokuwikiClient.Communication
 			}
 
 			this.clientProxy.Credentials = new NetworkCredential(userName, passWord);
+			this.clientProxy.PreAuthenticate = true;
 		}
 
 		/// <summary>
@@ -84,6 +87,8 @@ namespace DokuwikiClient.Communication
 		{
 			try
 			{
+				ServicePointManager.ServerCertificateValidationCallback = delegate(object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) { return true; };
+
 				this.clientProxy = XmlRpcProxyGen.Create<IDokuWikiProxy>();
 				this.clientProxy.NonStandard = XmlRpcNonStandard.AllowNonStandardDateTime;
 				this.clientProxy.Url = serverUrl.AbsoluteUri;
@@ -118,7 +123,7 @@ namespace DokuwikiClient.Communication
 			}
 			catch (WebException we)
 			{
-				logger.Warn(we);
+				logger.Warn(we.Message);
 				throw;
 			}
 			catch (XmlRpcIllFormedXmlException)
@@ -138,7 +143,7 @@ namespace DokuwikiClient.Communication
 			}
 			catch (XmlRpcException xrpce)
 			{
-				logger.Warn(xrpce);
+				logger.Warn(xrpce.Message);
 				throw new CommunicationException(xrpce.Message);
 			}
 		}
@@ -413,9 +418,30 @@ namespace DokuwikiClient.Communication
 		/// <param name="user">The user.</param>
 		/// <param name="password">The password.</param>
 		/// <returns></returns>
-		public int Login(string user, string password)
+		public bool Login(string user, string password)
 		{
-			throw new NotImplementedException();
+			bool result;
+
+			try
+			{
+				result = this.clientProxy.Login(user, password);
+				return result;
+			}
+			catch (WebException we)
+			{
+				logger.Warn(we.Message);
+				throw;
+			}
+			catch (XmlRpcFaultException xrfe)
+			{
+				logger.Warn(xrfe.Message);
+				throw new ArgumentException("Unkown error; see log for details.");
+			}
+			catch (XmlRpcException xrpce)
+			{
+				logger.Warn(xrpce.Message);
+				throw new CommunicationException(xrpce.Message);
+			}
 		}
 
 		/// <summary>

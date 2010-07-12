@@ -9,6 +9,7 @@ using CH.Froorider.DokuwikiClient.Communication;
 using DokuwikiClient.Communication.XmlRpcMessages;
 using CH.Froorider.DokuwikiClient.Persistence;
 using DokuwikiClient.Domain.Entities;
+using CH.Froorider.DokuwikiClient.Communication.Messages;
 
 namespace CH.Froorider.DokuWikiClientConsoleApplication
 {
@@ -49,25 +50,23 @@ namespace CH.Froorider.DokuWikiClientConsoleApplication
 			IDokuWikiClient dokuWikiClient = DokuWikiClientFactory.CreateDokuWikiClient();
 
 			Console.WriteLine("Connecting to wiki.");
-			if (args.Length != 0 && !String.IsNullOrEmpty(args[0]))
-			{
-				communicationClient = XmlRpcProxyFactory.CreateCommunicationProxy(new Uri(args[0]));
-			}
-			else
-			{
-				communicationClient = XmlRpcProxyFactory.CreateCommunicationProxy(new Uri("http://wiki.froorider.ch/lib/exe/xmlrpc.php"));
-			}
+			//if (args.Length != 0 && !String.IsNullOrEmpty(args[0]))
+			//{
+			//    communicationClient = XmlRpcProxyFactory.CreateCommunicationProxy(new Uri(args[0]));
+			//}
+			//else
+			//{
+			communicationClient = XmlRpcProxyFactory.CreateCommunicationProxy(new Uri("http://wiki.froorider.ch/lib/exe/xmlrpc.php"));
+			//}
 
 			try
 			{
-				Console.WriteLine("Listing server methods.");
-				foreach (String serverMethodName in communicationClient.ListServerMethods())
-				{
-					Console.WriteLine("Method name: {0}", serverMethodName);
-				}
-				Console.WriteLine("----------------------------------------------------");
+				Console.WriteLine("Trying to log in.");
 
+				bool result = communicationClient.Login("Froorider", "md9niazv");
+				Console.WriteLine("Result of login: {0}", result);
 				Console.WriteLine("Listing server capabilites.");
+
 				Capability serverCapability = communicationClient.LoadServerCapabilites();
 				if (serverCapability.XmlRpcSpecification != null)
 				{
@@ -85,6 +84,14 @@ namespace CH.Froorider.DokuWikiClientConsoleApplication
 				{
 					Console.WriteLine("Fault codes Version: {0}", serverCapability.FaultCodesSpecification.SpecificationVersion);
 				}
+
+				Console.WriteLine("----------------------------------------------------");
+
+				Console.WriteLine("Listing server methods.");
+				foreach (String serverMethodName in communicationClient.ListServerMethods())
+				{
+					Console.WriteLine("Method name: {0}", serverMethodName);
+				}
 			}
 			catch (ArgumentException ae)
 			{
@@ -92,6 +99,10 @@ namespace CH.Froorider.DokuWikiClientConsoleApplication
 				Console.WriteLine("Press enter to exit.");
 				Console.ReadLine();
 				Environment.Exit(0);
+			}
+			catch (CommunicationException ce)
+			{
+				Console.WriteLine("Communication error. Cause: {0}", ce.Message);
 			}
 
 			Console.WriteLine("----------------------------------------------------");

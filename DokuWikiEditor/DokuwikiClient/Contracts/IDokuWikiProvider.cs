@@ -76,7 +76,7 @@ namespace CH.Froorider.DokuwikiClient.Contracts
 		/// <param name="password">The password of the user as a string.</param>
 		/// <returns>An integer describing the status of the login - request.</returns>
 		[XmlRpcMethod("dokuwiki.login")]
-		int Login(string user, string password);
+		bool Login(string user, string password);
 
 		/// <summary>
 		/// Locks or unlocks a bunch of wiki pages.
