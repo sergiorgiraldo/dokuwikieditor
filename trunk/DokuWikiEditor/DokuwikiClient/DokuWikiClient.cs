@@ -29,7 +29,6 @@ using CH.Froorider.DokuwikiClient.Persistence;
 using DokuwikiClient.Communication;
 using DokuwikiClient.Domain.Entities;
 using log4net;
-using Microsoft.Practices.Unity;
 
 namespace CH.Froorider.DokuwikiClient
 {
