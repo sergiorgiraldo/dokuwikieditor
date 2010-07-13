@@ -76,6 +76,9 @@ namespace DokuwikiClient.Communication
 
 			this.clientProxy.Credentials = new NetworkCredential(userName, passWord);
 			this.clientProxy.PreAuthenticate = true;
+
+			logger.Info("Trying to log in");
+			this.clientProxy.Login(userName, passWord);
 		}
 
 		/// <summary>

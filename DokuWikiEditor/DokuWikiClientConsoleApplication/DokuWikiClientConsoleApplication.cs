@@ -49,22 +49,35 @@ namespace CH.Froorider.DokuWikiClientConsoleApplication
 			IDokuWikiProvider communicationClient;
 			IDokuWikiClient dokuWikiClient = DokuWikiClientFactory.CreateDokuWikiClient();
 
+			Uri uriToWiki;
+			string password = string.Empty;
+			string username = string.Empty;
+
 			Console.WriteLine("Connecting to wiki.");
-			//if (args.Length != 0 && !String.IsNullOrEmpty(args[0]))
-			//{
-			//    communicationClient = XmlRpcProxyFactory.CreateCommunicationProxy(new Uri(args[0]));
-			//}
-			//else
-			//{
-			communicationClient = XmlRpcProxyFactory.CreateCommunicationProxy(new Uri("http://wiki.froorider.ch/lib/exe/xmlrpc.php"));
-			//}
+			if (args.Length > 0 && !String.IsNullOrEmpty(args[0]))
+			{
+				uriToWiki = new Uri(args[0]);
+				if (args.Length == 3 && !String.IsNullOrEmpty(args[1]) && !String.IsNullOrEmpty(args[2]))
+				{
+					password = args[2];
+					username = args[1];
+					communicationClient = XmlRpcProxyFactory.CreateSecureCommunicationProxy(uriToWiki, username, password);
+				}
+				else
+				{
+					communicationClient = XmlRpcProxyFactory.CreateCommunicationProxy(uriToWiki);
+				}
+			}
+			else
+			{
+				Console.WriteLine("Usage: DokuWikiClientConsoleApplication <URI of wiki> [username] [password]");
+				Console.ReadLine();
+				return;
+			}
 
 			try
 			{
-				Console.WriteLine("Trying to log in.");
-
-				bool result = communicationClient.Login("Froorider", "md9niazv");
-				Console.WriteLine("Result of login: {0}", result);
+				Console.WriteLine("----------------------------------------------------");
 				Console.WriteLine("Listing server capabilites.");
 
 				Capability serverCapability = communicationClient.LoadServerCapabilites();
