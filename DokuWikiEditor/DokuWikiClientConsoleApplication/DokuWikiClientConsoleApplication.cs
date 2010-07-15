@@ -123,7 +123,7 @@ namespace CH.Froorider.DokuWikiClientConsoleApplication
 			do
 			{
 				Console.Write(" 0 := Exit application\n 1 := Get Wikipage \n 2 := GetAllPages \n 3 := Get WikiPage as HTML \n");
-				Console.Write(" 4 := List all stored wiki accounts. \n");
+				Console.Write(" 4 := List all stored wiki accounts. \n 5:= Load Method Help \n 6:= Load method signature \n");
 				string input = Console.ReadLine();
 				if (input.Equals("0"))
 				{
@@ -161,6 +161,18 @@ namespace CH.Froorider.DokuWikiClientConsoleApplication
 					{
 						Console.WriteLine("Loaded account : {0}" + account.AccountName);
 					}
+				}
+				else if (input.Equals("5"))
+				{
+					Console.WriteLine("Enter name of xml rpc method.");
+					string methodName = Console.ReadLine();
+					Console.WriteLine("Method help: \n" + communicationClient.LoadMethodHelp(methodName));
+				}
+				else if (input.Equals("6"))
+				{
+					Console.WriteLine("Enter name of xml rpc method.");
+					string methodName = Console.ReadLine();
+					Console.WriteLine("Method signatures: \n" + communicationClient.LoadMethodSignatures(methodName));
 				}
 				else
 				{
