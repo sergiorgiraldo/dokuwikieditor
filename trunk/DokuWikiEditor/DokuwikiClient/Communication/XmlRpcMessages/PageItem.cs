@@ -19,7 +19,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ========================================================================
-          
+
 using System;
 using CookComputing.XmlRpc;
 
@@ -44,7 +44,7 @@ namespace DokuwikiClient.Communication.XmlRpcMessages
 		/// </summary>
 		/// <value>The permissions.</value>
 		[XmlRpcMember("perms")]
-		public string Permissions { get; set; }
+		public int Permissions { get; set; }
 
 		/// <summary>
 		/// Gets or sets the size of the wikipage in bytes.
