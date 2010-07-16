@@ -76,7 +76,7 @@
 		/// <param name="e">The <see cref="System.ComponentModel.DoWorkEventArgs"/> instance containing the event data.</param>
 		private void BeginConnectToWiki(object sender, DoWorkEventArgs e)
 		{
-			this.clientProxy = XmlRpcProxyFactory.CreateCommunicationProxy(new Uri(this.activeAccount.WikiUrlRaw));
+			this.clientProxy = XmlRpcProxyFactory.CreateSecureCommunicationProxy(new Uri(this.activeAccount.WikiUrlRaw), this.activeAccount.LoginName, this.activeAccount.Password);
 			clientProxy.ListServerMethods();
 		}
 

@@ -13,6 +13,9 @@ using CH.Froorider.DokuwikiClient.Communication.Messages;
 
 namespace CH.Froorider.DokuWikiClientConsoleApplication
 {
+	/// <summary>
+	/// Console application to show how to use the library.
+	/// </summary>
 	public class DokuWikiClientConsoleApplication
 	{
 		#region Fields
