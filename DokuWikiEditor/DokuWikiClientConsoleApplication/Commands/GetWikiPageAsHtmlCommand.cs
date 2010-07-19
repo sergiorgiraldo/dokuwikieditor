@@ -1,5 +1,5 @@
 ﻿// ========================================================================
-// File:     ICommand.cs
+// File:     GetWikiPageAsHtmlCommand.cs
 // 
 // Author:   $Author$
 // Date:     $LastChangedDate$
@@ -20,24 +20,36 @@
 // limitations under the License.
 // ========================================================================
 
+using System;
+using CH.Froorider.DokuwikiClient.Contracts;
 using DokuWikiClientConsoleApplication.Commands;
 
 namespace CH.Froorider.DokuWikiClientConsoleApplication.Commands
 {
-	/// <summary>
-	/// Defines the methods a Command offers. A command contains the logic which is executed.
-	/// </summary>
-	public interface ICommand
+	public class GetWikiPageAsHtmlCommand : Command
 	{
-		/// <summary>
-		/// Gets or sets the name of the command.
-		/// </summary>
-		/// <value>One of the values of <see cref="CommandName"/>.</value>
-		CommandName Name { get; }
+		#region Constructor
 
 		/// <summary>
-		/// Triggers the instance to execute it's logic.
+		/// Initializes a new instance of the <see cref="GetWikiPageAsHtmlCommand"/> class.
 		/// </summary>
-		void Execute();
+		/// <param name="wikiProvider">The wiki provider which gives us access to the remote host.</param>
+		public GetWikiPageAsHtmlCommand(IDokuWikiProvider wikiProvider)
+			: base(wikiProvider)
+		{
+			this.Name = CommandName.GetWikiPageAsHtml;
+		}
+
+		#endregion
+
+		/// <summary>
+		/// Executes this instance.
+		/// </summary>
+		public override void Execute()
+		{
+			Console.WriteLine("Enter pagename of wikipage.");
+			string pageName = Console.ReadLine();
+			Console.WriteLine("Page as HTML: \n" + this.communicationProxy.GetPageHtml(pageName));
+		}
 	}
 }

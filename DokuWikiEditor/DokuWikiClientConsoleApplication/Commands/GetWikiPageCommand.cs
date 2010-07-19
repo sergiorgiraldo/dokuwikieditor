@@ -1,5 +1,5 @@
 ﻿// ========================================================================
-// File:     ICommand.cs
+// File:     GetWikiPageCommand.cs
 // 
 // Author:   $Author$
 // Date:     $LastChangedDate$
@@ -20,24 +20,39 @@
 // limitations under the License.
 // ========================================================================
 
+using System;
+using CH.Froorider.DokuwikiClient.Contracts;
 using DokuWikiClientConsoleApplication.Commands;
 
 namespace CH.Froorider.DokuWikiClientConsoleApplication.Commands
 {
 	/// <summary>
-	/// Defines the methods a Command offers. A command contains the logic which is executed.
+	/// Handles the logic for getting a wiki page from host.
 	/// </summary>
-	public interface ICommand
+	public class GetWikiPageCommand : Command
 	{
-		/// <summary>
-		/// Gets or sets the name of the command.
-		/// </summary>
-		/// <value>One of the values of <see cref="CommandName"/>.</value>
-		CommandName Name { get; }
+		#region Constructor
 
 		/// <summary>
-		/// Triggers the instance to execute it's logic.
+		/// Initializes a new instance of the <see cref="GetWikiPageCommand"/> class.
 		/// </summary>
-		void Execute();
+		/// <param name="wikiProvider">The wiki provider which gives us access to the remote host.</param>
+		public GetWikiPageCommand(IDokuWikiProvider wikiProvider)
+			: base(wikiProvider)
+		{
+			this.Name = CommandName.GetWikiPage;
+		}
+
+		#endregion
+
+		/// <summary>
+		/// Executes this instance.
+		/// </summary>
+		public override void Execute()
+		{
+			Console.WriteLine("Enter pagename of wikipage.");
+			string pageName = Console.ReadLine();
+			Console.WriteLine("Wikitext of page: \n" + this.communicationProxy.GetPage(pageName));
+		}
 	}
 }

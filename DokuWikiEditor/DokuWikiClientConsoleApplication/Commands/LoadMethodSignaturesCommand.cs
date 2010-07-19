@@ -1,5 +1,5 @@
 ﻿// ========================================================================
-// File:     ICommand.cs
+// File:     LoadMethodSignaturesCommand.cs
 // 
 // Author:   $Author$
 // Date:     $LastChangedDate$
@@ -20,24 +20,36 @@
 // limitations under the License.
 // ========================================================================
 
+using System;
+using CH.Froorider.DokuwikiClient.Contracts;
 using DokuWikiClientConsoleApplication.Commands;
 
 namespace CH.Froorider.DokuWikiClientConsoleApplication.Commands
 {
-	/// <summary>
-	/// Defines the methods a Command offers. A command contains the logic which is executed.
-	/// </summary>
-	public interface ICommand
+	public class LoadMethodSignaturesCommand : Command
 	{
-		/// <summary>
-		/// Gets or sets the name of the command.
-		/// </summary>
-		/// <value>One of the values of <see cref="CommandName"/>.</value>
-		CommandName Name { get; }
+		#region Constructor
 
 		/// <summary>
-		/// Triggers the instance to execute it's logic.
+		/// Initializes a new instance of the <see cref="LoadMethodSignaturesCommand"/> class.
 		/// </summary>
-		void Execute();
+		/// <param name="wikiProvider">The wiki provider which gives us access to the remote host.</param>
+		public LoadMethodSignaturesCommand(IDokuWikiProvider wikiProvider)
+			: base(wikiProvider)
+		{
+			this.Name = CommandName.LoadMethodSignatures;
+		}
+
+		#endregion
+
+		/// <summary>
+		/// Executes this instance.
+		/// </summary>
+		public override void Execute()
+		{
+			Console.WriteLine("Enter name of xml rpc method.");
+			string methodName = Console.ReadLine();
+			Console.WriteLine("Method signatures: \n" + this.communicationProxy.LoadMethodSignatures(methodName));
+		}
 	}
 }

@@ -1,5 +1,5 @@
 ﻿// ========================================================================
-// File:     ICommand.cs
+// File:     GetAllPageItemsCommand.cs
 // 
 // Author:   $Author$
 // Date:     $LastChangedDate$
@@ -20,24 +20,44 @@
 // limitations under the License.
 // ========================================================================
 
+using System;
+using CH.Froorider.DokuwikiClient.Contracts;
+using DokuwikiClient.Communication.XmlRpcMessages;
 using DokuWikiClientConsoleApplication.Commands;
 
 namespace CH.Froorider.DokuWikiClientConsoleApplication.Commands
 {
-	/// <summary>
-	/// Defines the methods a Command offers. A command contains the logic which is executed.
-	/// </summary>
-	public interface ICommand
+	public class GetAllPageItemsCommand : Command
 	{
-		/// <summary>
-		/// Gets or sets the name of the command.
-		/// </summary>
-		/// <value>One of the values of <see cref="CommandName"/>.</value>
-		CommandName Name { get; }
+		#region Constructor
 
 		/// <summary>
-		/// Triggers the instance to execute it's logic.
+		/// Initializes a new instance of the <see cref="GetAllPageItemsCommand"/> class.
 		/// </summary>
-		void Execute();
+		/// <param name="wikiProvider">The wiki provider which gives us access to the remote host.</param>
+		public GetAllPageItemsCommand(IDokuWikiProvider wikiProvider)
+			: base(wikiProvider)
+		{
+			this.Name = CommandName.GetAllPages;
+		}
+
+		#endregion
+
+		/// <summary>
+		/// Executes this instance.
+		/// </summary>
+		public override void Execute()
+		{
+			Console.WriteLine("Getting all page items.");
+			PageItem[] pages = this.communicationProxy.GetAllPages();
+			foreach (PageItem pageItem in pages)
+			{
+				Console.WriteLine("ID: " + pageItem.Identificator);
+				Console.WriteLine("LastModified: " + pageItem.LastModified);
+				Console.WriteLine("Permissions: " + pageItem.Permissions);
+				Console.WriteLine("Size: " + pageItem.Size);
+				Console.WriteLine();
+			}
+		}
 	}
 }

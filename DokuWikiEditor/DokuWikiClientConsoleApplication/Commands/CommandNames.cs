@@ -20,6 +20,7 @@
 // limitations under the License.
 // ========================================================================
 
+using System.ComponentModel;
 namespace DokuWikiClientConsoleApplication.Commands
 {
 	/// <summary>
@@ -27,18 +28,25 @@ namespace DokuWikiClientConsoleApplication.Commands
 	/// </summary>
 	public enum CommandName
 	{
+		[Description("Exit application")]
 		ExitApplication = 0,
 
+		[Description("Get a single wikipage.")]
 		GetWikiPage = 1,
 
-		GetAllPages = 3,
+		[Description("Get all wikipage descriptions.")]
+		GetAllPages = 2,
 
-		GetWikiPageAsHtml = 4,
+		[Description("Get a single wikipage rendered as HTML - source.")]
+		GetWikiPageAsHtml = 3,
 
-		ListStoredWikiAccounts = 5,
+		[Description("Get a list of all stored wiki accounts.")]
+		ListStoredWikiAccounts = 4,
 
-		LoadMethodHelp = 6,
+		[Description("Get help description for an xml rpc method.")]
+		LoadMethodHelp = 5,
 
-		LoadMethodSignatures = 7
+		[Description("Get all method signatures for an xml rpc method.")]
+		LoadMethodSignatures = 6
 	}
 }
