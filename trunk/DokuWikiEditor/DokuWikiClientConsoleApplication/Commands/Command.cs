@@ -1,5 +1,5 @@
 ﻿// ========================================================================
-// File:     ICommand.cs
+// File:     Command.cs
 // 
 // Author:   $Author$
 // Date:     $LastChangedDate$
@@ -20,24 +20,45 @@
 // limitations under the License.
 // ========================================================================
 
+using CH.Froorider.DokuwikiClient.Contracts;
 using DokuWikiClientConsoleApplication.Commands;
 
 namespace CH.Froorider.DokuWikiClientConsoleApplication.Commands
 {
 	/// <summary>
-	/// Defines the methods a Command offers. A command contains the logic which is executed.
+	/// Abstract definition for all commands.
 	/// </summary>
-	public interface ICommand
+	public abstract class Command : ICommand
 	{
+		#region Fields
+
+		protected IDokuWikiProvider communicationProxy;
+
+		#endregion
+
+		#region Constructor
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Command"/> class.
+		/// </summary>
+		/// <param name="provider">The provider which encapsulates the communication with the remote host.</param>
+		protected Command(IDokuWikiProvider provider)
+		{
+			this.communicationProxy = provider;
+		}
+
+		#endregion
+
+		#region ICommand Members
+
 		/// <summary>
 		/// Gets or sets the name of the command.
 		/// </summary>
 		/// <value>One of the values of <see cref="CommandName"/>.</value>
-		CommandName Name { get; }
+		public CommandName Name { get; protected set; }
 
-		/// <summary>
-		/// Triggers the instance to execute it's logic.
-		/// </summary>
-		void Execute();
+		public abstract void Execute();
+
+		#endregion
 	}
 }
