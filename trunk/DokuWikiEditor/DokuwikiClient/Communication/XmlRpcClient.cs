@@ -173,6 +173,11 @@ namespace DokuwikiClient.Communication
 			{
 				throw new ArgumentException("XmlRpc server not enabled.");
 			}
+			catch (XmlRpcFaultException xrfe)
+			{
+				this.logger.Warn(xrfe);
+				throw new CommunicationException(xrfe.Message);
+			}
 			catch (XmlRpcException xrpce)
 			{
 				logger.Warn(xrpce);

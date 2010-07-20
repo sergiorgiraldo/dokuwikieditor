@@ -59,7 +59,25 @@ namespace CH.Froorider.DokuWikiClientConsoleApplication
 			Console.WriteLine("Connecting to wiki.");
 			if (args.Length > 0 && !String.IsNullOrEmpty(args[0]))
 			{
-				uriToWiki = new Uri(args[0]);
+				UriBuilder uriConstructor = new UriBuilder(args[0]);
+
+				if (!uriConstructor.Uri.IsWellFormedOriginalString())
+				{
+
+					if (uriConstructor.Scheme != "http" || uriConstructor.Scheme != "https")
+					{
+						uriConstructor.Scheme = "http";
+					}
+					uriConstructor.Host = args[0];
+				}
+
+				if (uriConstructor.Path == "/")
+				{
+					uriConstructor.Path = "/lib/exe/xmlrpc.php";
+				}
+
+				uriToWiki = uriConstructor.Uri;
+
 				if (args.Length == 3 && !String.IsNullOrEmpty(args[1]) && !String.IsNullOrEmpty(args[2]))
 				{
 					password = args[2];
@@ -112,9 +130,7 @@ namespace CH.Froorider.DokuWikiClientConsoleApplication
 			catch (ArgumentException ae)
 			{
 				Console.WriteLine(ae.Message);
-				Console.WriteLine("Press enter to exit.");
-				Console.ReadLine();
-				Environment.Exit(0);
+				Console.WriteLine("Proceeding ....");
 			}
 			catch (CommunicationException ce)
 			{

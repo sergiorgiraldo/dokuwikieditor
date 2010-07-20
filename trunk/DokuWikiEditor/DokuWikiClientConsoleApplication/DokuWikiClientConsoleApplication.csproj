@@ -64,6 +64,7 @@
     <Compile Include="Commands\GetWikiPageAsHtmlCommand.cs" />
     <Compile Include="Commands\GetWikiPageCommand.cs" />
     <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\ListServerMethodsCommand.cs" />
     <Compile Include="Commands\ListStoredWikiAccountsCommand.cs" />
     <Compile Include="Commands\LoadMethodHelpCommand.cs" />
     <Compile Include="Commands\LoadMethodSignaturesCommand.cs" />
