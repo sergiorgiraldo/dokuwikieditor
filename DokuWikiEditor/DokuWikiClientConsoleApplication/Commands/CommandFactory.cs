@@ -86,6 +86,8 @@ namespace CH.Froorider.DokuWikiClientConsoleApplication.Commands
 					return new LoadMethodSignaturesCommand(communicationProxy);
 				case CommandName.ListStoredWikiAccounts:
 					return new ListStoredWikiAccountsCommand(wikiClient, communicationProxy);
+				case CommandName.ListServerMethods:
+					return new ListServerMethodsCommand(communicationProxy);
 				case CommandName.ExitApplication:
 				default:
 					throw new NotImplementedException("No command available for this command name.");

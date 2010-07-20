@@ -47,6 +47,9 @@ namespace DokuWikiClientConsoleApplication.Commands
 		LoadMethodHelp = 5,
 
 		[Description("Get all method signatures for an xml rpc method.")]
-		LoadMethodSignatures = 6
+		LoadMethodSignatures = 6,
+
+		[Description("List all offered remote methods.")]
+		ListServerMethods = 7
 	}
 }
