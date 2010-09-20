@@ -23,6 +23,8 @@
 using System;
 using CH.Froorider.DokuwikiClient.Contracts;
 using DokuWikiClientConsoleApplication.Commands;
+using CookComputing.XmlRpc;
+using CH.Froorider.DokuwikiClient.Communication.Messages;
 
 namespace CH.Froorider.DokuWikiClientConsoleApplication.Commands
 {
@@ -49,7 +51,29 @@ namespace CH.Froorider.DokuWikiClientConsoleApplication.Commands
 		{
 			Console.WriteLine("Enter name of xml rpc method.");
 			string methodName = Console.ReadLine();
-			Console.WriteLine("Method signatures: \n" + this.communicationProxy.LoadMethodSignatures(methodName));
+			try
+			{
+				object[] methodSignatures = this.communicationProxy.LoadMethodSignatures(methodName);
+				foreach (var item in methodSignatures)
+				{
+					if (item is XmlRpcStruct)
+					{
+						Console.WriteLine("Parameter type: 'Struct'");
+					}
+					else
+					{
+						Console.WriteLine("Parameter type: " + item.ToString());
+					}
+				}
+			}
+			catch (CommunicationException ce)
+			{
+				Console.WriteLine("Fault on XmlRpc communication. Cause: " + ce.Message);
+			}
+			catch (ArgumentException ae)
+			{
+				Console.WriteLine("Fault on XmlRpc communication. Cause: " + ae.Message);
+			}
 		}
 	}
 }
