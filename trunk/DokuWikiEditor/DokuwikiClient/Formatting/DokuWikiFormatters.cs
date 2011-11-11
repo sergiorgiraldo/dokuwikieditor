@@ -24,6 +24,7 @@
 using System.Linq;
 using DokuwikiClient.Formatting.Renderers;
 using WikiPlex.Formatting;
+using WikiPlex.Formatting.Renderers;
 
 namespace DokuwikiClient.Formatting
 {
@@ -36,11 +37,11 @@ namespace DokuwikiClient.Formatting
 		/// Gets the doku wiki formatters.
 		/// </summary>
 		/// <returns>A MacroFormatter containing all specific DokuWiki renderers.</returns>
-		public static MacroFormatter GetDokuWikiFormatters()
+		public static Formatter GetDokuWikiFormatters()
 		{
 			var siteRenderers = new IRenderer[] { new DokuWikiHeadingsRenderer(), new DokuWikiCodeRenderer() };
 			IEnumerable<IRenderer> allRenderers = WikiPlex.Renderers.All.Union(siteRenderers);
-			return new MacroFormatter(allRenderers);
+			return new Formatter(allRenderers);
 		}
 	}
 }
