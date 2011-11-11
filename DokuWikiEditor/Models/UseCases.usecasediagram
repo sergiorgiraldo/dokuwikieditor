@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="83e366e3-90d0-4126-93d8-5a8ab2440d5a" name="UseCases" linkedPackageId="cf4cbd93-d862-4305-90da-bdaee698132a" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <profileInstances>
+    <packageHasProfileInstances Id="b943799b-ed2b-4660-9126-b3fe4fb89276">
+      <profileInstance Id="c7f77dcf-dd39-44b8-8cdb-dd50665f94d9" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="dd160804-1867-4d95-8513-589476f79298">
+      <profileInstance Id="32d005b8-62d8-4a4b-b5b8-82449ab1b74a" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <actor Id="a15c86cf-85f1-4132-8818-6d0a6dca3e50" name="DokuwikiUser" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="12bab477-aac2-4d33-83d9-cec18f015723" />
+      </actor>
+    </useCaseModelRootHasTypes>
+  </packagedElements>
+  <package Id="cf4cbd93-d862-4305-90da-bdaee698132a" name="Models">
+    <elementDefinition Id="70b03152-b41b-4eb3-98de-cb0c4e1a2749" />
+  </package>
+</useCaseModelRoot>

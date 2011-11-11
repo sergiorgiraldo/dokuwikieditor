@@ -22,6 +22,7 @@
 // ========================================================================
 
 using WikiPlex.Formatting;
+using WikiPlex.Formatting.Renderers;
 
 namespace DokuwikiClient.Formatting.Renderers
 {
