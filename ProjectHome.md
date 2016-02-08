@@ -1,0 +1,2 @@
+Dokuwiki Editor is a desktop application written in C# for offline editing the content of a Dokuwiki.
+The content of the wiki can be managed on a local PC. Wikipages can be edited and previewed and then sync back to the wiki server.
